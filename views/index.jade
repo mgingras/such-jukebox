@@ -1,4 +1,9 @@
 extends layout
 
 block content
-	p hello
+	h3 Hosting
+	input(type="text", class="form-control", placeholder="Party Name")
+	p Use location?
+	div(class="btn-group")
+		button(type="button", class="btn btn-default", data-toggle="button") Yes
+		button(type="button", class="btn btn-default", data-toggle="button") No

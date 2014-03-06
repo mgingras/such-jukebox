@@ -12,7 +12,21 @@ html
     script(src='/javascript/main.js')
 
   body
-    div(class="header")
-      h3 such jukebox
-    block content
+    div(class="container main")
+        div(class="header container")
+            nav(class="navbar navbar-default" role="navigation")
+                div(class="container-fluid")
+                    div(class="navbar-header")
+                        button.navbar-toggle(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1')
+                            span.sr-only Toggle navigation
+                            span.icon-bar
+                            span.icon-bar
+                            span.icon-bar
+                        a(class="navbar-brand", href="/") such jukebox
+                    div(class="collapse navbar-collapse", id="bs-example-navbar-collapse-1")
+                        ul(class="nav navbar-nav")
+                            li(id="nav-link-home")
+                                a(href="/") Home
+        div(class="container")
+            block content
        
