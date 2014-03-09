@@ -1,0 +1,34 @@
+extends layout
+
+block content
+  .site-wrapper
+      .site-wrapper-inner
+          .cover-container
+            .masthead.clearfix
+              .inner
+                .masthead-brand
+                  img.img-rounded(src="/img/dodge.jpg", width="50px", style="float:left;")
+                  h3.pull-left Such <br> Jukebox
+            .inner.cover
+              .row
+                .col-xs-offset-3.col-xs-4
+                  h1(style="color:#c72bc8;") Such
+              .row
+                .col-xs-offset-7.col-xs-4
+                  h1(style="color:#f2e894;") Jukebox
+              .row
+                .col-xs-offset-2.col-xs-4
+                  h3(style="color:#4bbcf4;") Much
+              .row
+                .col-xs-offset-6.col-xs-4
+                  h3(style="color:red;") Music
+                  p(style="color:#b222c6;") wow
+              p.lead
+                //- | Are you:
+              p.lead
+                a.btn.btn-lg.btn-primary(href='/hosting') Host a Party
+              p.lead
+                a.btn.btn-lg.btn-warning(href='/joining') Join a Party
+            .mastfoot
+              .inner
+                p(style="color:white;") Much fun to be had here

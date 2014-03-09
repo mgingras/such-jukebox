@@ -1,0 +1,48 @@
+extends layout
+
+block content
+  .site-wrapper
+      .site-wrapper-inner
+          .cover-container
+            .masthead.clearfix
+              .inner
+                .masthead-brand
+                  img.img-rounded(src="/img/dodge.jpg", width="50px", style="float:left;")
+                  h3.pull-left Such <br> Jukebox
+            .inner.cover
+              p.lead
+                | Joining
+              .row
+                .col-sm-offset-3.col-sm-6
+                  p.
+                    Enter the name of the party to search for or select a nearby party from the list
+              .row
+                .col-sm-offset-4.col-sm-5
+                  .input-group
+                    input.form-control(type="text")
+                    span.input-group-btn
+                      button.btn.btn-default(type="button")
+                        .fa.fa-search
+              .row
+                br
+                .col-sm-offset-3.col-sm-6
+                  .list-group
+                    a.list-group-item.active Martin's Party!
+                    a.list-group-item Dodge Party
+                    a.list-group-item Super duper party
+              .row
+                .col-sm-offset-6.col-sm-3
+                  p Your location:&nbsp;
+                    span.location(style="color:#5a97bd;")
+                      i.fa.fa-location-arrow Ottawa
+                  a.pull-right(href="#")
+                    small Find me...
+              .row
+                br
+                .col-sm-offset-2.col-sm-3(style="padding-bottom:10px")
+                  a.btn.btn-lg.btn-danger(href='/') Back
+                .col-sm-offset-2.col-sm-3
+                  a.btn.btn-lg.btn-success(href='/party') Join the party
+            .mastfoot
+              .inner
+                p(style="color:white;") Much fun to be had here

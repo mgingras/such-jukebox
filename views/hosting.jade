@@ -1,0 +1,49 @@
+extends layout
+
+block content
+  .site-wrapper
+      .site-wrapper-inner
+          .cover-container
+            .masthead.clearfix
+              .inner
+                .masthead-brand
+                  img.img-rounded(src="/img/dodge.jpg", width="50px", style="float:left;")
+                  h3.pull-left Such <br> Jukebox
+            .inner.cover
+              p.lead
+                | Hosting
+              .row
+                .col-sm-offset-3.col-sm-6(style="padding-bottom:10px;")
+                  input.form-control(type="text", placeholder="Party Name")
+              .row
+                .col-sm-offset-3.col-sm-6
+                  .input-group
+                    span Use my location: &nbsp;
+                    //- http://www.bootstrap-switch.org/
+                    input.switch(type="checkbox", checked,data-on-color="success", data-size="small")
+                    script $(".switch").bootstrapSwitch();
+              .row
+                .col-sm-offset-3.col-sm-6
+                  h4.pull-left Fallback genre
+              .row
+                .col-sm-offset-3.col-sm-6
+                  p.
+                    Songs from this genre will populate the playlist if there are no songs submitted by users
+              .row
+                .col-sm-offset-6.col-sm-4
+                  .btn-group
+                    button.btn.btn-default.btn-sm.dropdown-toggle(type="button", data-toggle="dropdown") Fallback Genre
+                    ul.dropdown-menu(style="color:black;")
+                      li Top 40
+                      li Hip-hop
+                      li Rap
+                      li Pop
+
+                br
+                .col-sm-offset-2.col-sm-3(style="padding-bottom:10px;")
+                  a.btn.btn-lg.btn-danger(href='/') Back
+                .col-sm-offset-3.col-sm-3
+                  a.btn.btn-lg.btn-success(href='/party') Start the party
+            .mastfoot
+              .inner
+                p(style="color:white;") Much fun to be had here
