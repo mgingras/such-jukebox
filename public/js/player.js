@@ -154,4 +154,14 @@ Player = function() {
 
 		updateSongProgressUI();
 	}
+
+	$( window ).resize(function() {
+        that.resizeQueue();
+    });
+
+    this.resizeQueue = function() {
+    	$('#song-queue').css({
+            height: $(window).height() - $('#header').height() - $('#player-container').height() - 25
+        });
+    }
 }

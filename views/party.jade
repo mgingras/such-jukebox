@@ -6,20 +6,20 @@ block content
     $(function(){
         player = new Player();
         player.addSongsToQueue(!{JSON.stringify(songs)});
-        
+        player.resizeQueue();
     });
   .site-wrapper
       .site-wrapper-inner
           .cover-container
-            .masthead.clearfix
+            .masthead.clearfix(id="header")
               .inner
                 .masthead-brand
                   img.img-rounded(src="/img/dodge.jpg", width="50px", style="float:left;")
                   h3.pull-left Such <br> Jukebox
             .inner.cover
-                ul.list-group.queue
+                ul.list-group.queue(id="song-queue")
                     ul.list-group(id="queued-songs")        
-                .player-controls
+                .player-controls(id="player-container")
                     p.now-playing Now Playing
                     a(id="play-btn" class="btn btn-info btn-lg player-btn")
                         span(class="glyphicon glyphicon-play")
