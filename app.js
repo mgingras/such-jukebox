@@ -7,7 +7,7 @@ var express = require('express');
 var routes = require('./routes');
 var http = require('http');
 var path = require('path');
-
+var fs = require('fs');
 var app = express();
 
 // all environments
@@ -38,3 +38,17 @@ app.get('/party', routes.party);
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
+
+
+/*fs.readFile('./db.json', 'utf8', function(err, data) {
+    if(err) {
+        console.error("Could not open file: %s", err);
+        return;
+    }
+    console.log(data);
+    fs.writeFile('./db.json', JSON.stringify({test: 1}), function(err) {
+        if(err) {
+            console.error("Could not write file: %s", err);
+        }
+    });
+});*/

@@ -52,7 +52,7 @@ Player = function() {
 		currentSongPercentDone = 0;
 
 		$('#player').empty();
-		$('#player').append('<source src="'+currentSong.fileLocation+'" type="audio/mp3">');
+		$('#player').append('<source src="'+currentSong.song.fileLocation+'" type="audio/mp3">');
 		if(isPlaying) {
 			$('#player').get(0).play();
 		}
@@ -61,10 +61,10 @@ Player = function() {
 		updateUIState();
 		updateSongProgressUI();
 
-		$('#current-song-title').text(currentSong.title);
-		$('#current-song-artist').text(currentSong.artist);
+		$('#current-song-title').text(currentSong.song.title);
+		$('#current-song-artist').text(currentSong.song.artist);
 		$('#current-song-icon').css({
-			'background-image': 'url('+currentSong.imageUrl+')'
+			'background-image': 'url('+currentSong.song.imageUrl+')'
 		});
 	}
 
@@ -103,6 +103,42 @@ Player = function() {
 		} else {
 			$('#next-song-btn').removeClass('disabled');
 		}
+		updatePendingQueue();
+	}
+
+	function updatePendingQueue() {
+		$('#queued-songs').empty();
+
+		if(queuedSongs.length > 0) {
+			for(var i in queuedSongs) {
+				var song = queuedSongs[i];
+				$('#queued-songs').append(getQueuedHtmlForSong(song));
+			}
+		} else {
+			$('#queued-songs').append(
+				'<li class="list-group-item">'+
+					'<p>There are no more songs</p>'+
+				'</li>');
+		}
+	}
+
+	function getQueuedHtmlForSong(song) {
+		var buttonType= "btn-info";
+		var upOrDown= "up";
+		if(song.ratioOfUpsToSkips < 0) {
+			buttonType = "btn-danger";
+			upOrDown= "down";
+		}
+		var html = '<li class="list-group-item" id="queued-song_'+song.id+'">'+
+                  '<div class="song-info-list">'+
+                    '<div class="song-icon song-icon-list" style="background-image: url('+song.song.imageUrl+')"></div>'+
+                    '<div class="song-details song-details-list">'+
+                      '<p>'+song.song.title+'</p>'+
+                      '<p>'+song.song.artist+'</p>'+
+                    '</div><a href="#" class="btn btn btn-default '+buttonType+' btn-lg disabled song-votes-count"><span class="glyphicon glyphicon-hand-'+upOrDown+'">'+song.ratioOfUpsToSkips+'</span></a>'+
+                  '</div>'+
+                '</li>';
+        return html;
 	}
 
 	function updateSongProgressUI() {

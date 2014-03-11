@@ -71,6 +71,7 @@ a:hover {
 
 .song-details-list{
   float: left;
+  text-align: left;
 }
 
 p.now-playing{
@@ -245,6 +246,12 @@ body {
   }
 
   .queue{
-    height: 300px;
+    height: 250px;
+  }
+
+  .site-wrapper{
+    top: 0;
+    right: 0;
+    position: absolute;
   }
 }

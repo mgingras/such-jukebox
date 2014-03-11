@@ -18,24 +18,7 @@ block content
                   h3.pull-left Such <br> Jukebox
             .inner.cover
                 ul.list-group.queue
-                    ul.list-group
-                        li.list-group-item
-                            .song-info-list
-                                .song-icon.song-icon-list
-                                .song-details.song-details-list
-                                    p Girlfriend
-                                    p J Beibs
-                                a(href="#", class="btn btn btn-default btn-info btn-lg disabled song-votes-count")
-                                    span(class="glyphicon glyphicon-hand-up") 14
-                        li.list-group-item
-                            .song-info-list
-                                .song-icon.song-icon-list
-                                .song-details.song-details-list
-                                    p Girlfriend
-                                    p J Beibs
-                                a(href="#", class="btn btn btn-default btn-danger btn-lg disabled song-votes-count")
-                                    span(class="glyphicon glyphicon-hand-down") -1
-                                     
+                    ul.list-group(id="queued-songs")        
                 .player-controls
                     p.now-playing Now Playing
                     a(id="play-btn" class="btn btn-info btn-lg player-btn")
