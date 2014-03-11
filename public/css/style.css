@@ -27,6 +27,46 @@ a:hover {
   border: 1px solid #fff;
 }
 
+.player-controls{
+  background-color: rgb(39, 39, 39);
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  width: 100%;
+}
+.player-controls a.player-btn{
+  padding:10px 15px;
+  margin: 2px;
+}
+
+.song-info{
+  display: inline-block;
+  margin-left: 20px;
+  vertical-align: middle;
+  margin-top: 9px;
+  max-width: 40%;
+  text-align: left;
+}
+
+.song-icon{
+  display: inline-block;
+  height: 50px;
+  width: 50px;
+  background-image: url(https://pbs.twimg.com/profile_images/2867464382/831afcdb38903ecc80f2cef099136878.png);
+  background-size: 50px;
+}
+
+.song-details{
+  display: inline-block;
+  margin-left: 5px;
+}
+
+p.now-playing{
+  position: absolute;
+  margin: 5px;
+  color: rgb(134, 130, 130);
+}
+
 
 /*
  * Base structure
@@ -165,5 +205,11 @@ body {
   .mastfoot,
   .cover-container {
     width: 700px;
+  }
+}
+
+@media (max-width: 768px) {
+  .player-controls{
+    width: 100%;
   }
 }

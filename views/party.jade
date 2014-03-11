@@ -1,6 +1,12 @@
 extends layout
 
 block content
+  script(src="/js/player.js")
+  script(type="text/javascript").
+    $(function(){
+        player = new Player();
+        player.addSongsToQueue(!{JSON.stringify(songs)});
+    });
   .site-wrapper
       .site-wrapper-inner
           .cover-container
@@ -10,3 +16,16 @@ block content
                   img.img-rounded(src="/img/dodge.jpg", width="50px", style="float:left;")
                   h3.pull-left Such <br> Jukebox
             .inner.cover
+                .player-controls
+                    p.now-playing Now Playing
+                    a(id="play-btn" class="btn btn-info btn-lg player-btn")
+                        span(class="glyphicon glyphicon-play")
+                    a(id="pause-btn", class="btn btn-info btn-lg player-btn", style="display:none;")
+                        span(class="glyphicon glyphicon-pause")
+                    a(id="next-song-btn", class="btn btn-info btn-lg player-btn")
+                        span(class="glyphicon glyphicon-forward")
+                    .song-info
+                        .song-icon(id="current-song-icon")
+                        .song-details
+                            p(id="current-song-title") Girlfriend
+                            p(id="current-song-artist") J Beibs
