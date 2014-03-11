@@ -31,7 +31,7 @@ a:hover {
   background-color: rgb(39, 39, 39);
   bottom: 0;
   left: 0;
-  position: absolute;
+  position: fixed;
   width: 100%;
 }
 .player-controls a.player-btn{
@@ -87,7 +87,6 @@ p.now-playing{
 }
 
 .queue{
-  height: 100%;
   overflow: scroll;
   overflow-x: hidden;
   color: black;
@@ -243,5 +242,9 @@ body {
 @media (max-width: 768px) {
   .player-controls{
     width: 100%;
+  }
+
+  .queue{
+    height: 300px;
   }
 }
