@@ -14,9 +14,13 @@ block content
             .masthead.clearfix(id="header")
               .inner
                 .masthead-brand
-                  img.img-rounded(src="/img/dodge.jpg", width="50px", style="float:left;")
-                  h3.pull-left Such <br> Jukebox
+                  img.img-rounded(src="/img/dodge.jpg", width="50px", style="float:left;margin-right:3px;")
+                  h3.pull-left Such Jukebox
             .inner.cover
+                .on-top-queue(id="on-top-queue")
+                    a(href="#", class="btn btn-info btn-sm")
+                        span(class="glyphicon glyphicon-envelope margined-glyphicon")
+                        |Invite Guests
                 ul.list-group.queue(id="song-queue")
                     ul.list-group(id="queued-songs")        
                 .player-controls(id="player-container")

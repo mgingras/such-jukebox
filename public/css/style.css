@@ -99,6 +99,21 @@ p.now-playing{
   float: right;
 }
 
+.margined-glyphicon{
+  margin-right: 5px;
+}
+
+p.inline{
+  display: inline;
+}
+
+.on-top-queue {
+  width:100%; 
+  height: 30px; 
+  text-align:right; 
+  margin-bottom: 6px;
+}
+
 
 /*
  * Base structure
@@ -247,6 +262,10 @@ body {
 
   .queue{
     height: 250px;
+  }
+
+  .inner{
+    padding: 0;
   }
 
   .site-wrapper{

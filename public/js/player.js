@@ -161,7 +161,7 @@ Player = function() {
 
     this.resizeQueue = function() {
     	$('#song-queue').css({
-            height: $(window).height() - $('#header').height() - $('#player-container').height() - 25
+            height: $(window).height() - $('#header').height() - $('#player-container').height() - 35 - $('#on-top-queue').height()
         });
     }
 }
