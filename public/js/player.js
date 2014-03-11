@@ -3,6 +3,8 @@ Player = function() {
 	var queuedSongs = [];
 	var playedSongs = []; 
 	var currentSong;
+	var currentSongPercentDone = 0;
+	var isPlaying;
 
 	this.addSongToQueue = function(song) {
 		if(!currentSong) {
@@ -46,7 +48,9 @@ Player = function() {
 			playedSongs.push(currentSong);
 		}
 		currentSong = newSong;
+		currentSongPercentDone = 0;
 
+		updateSongProgressUI();
 		$('#current-song-title').text(currentSong.title);
 		$('#current-song-artist').text(currentSong.artist);
 		$('#current-song-icon').css({
@@ -56,10 +60,12 @@ Player = function() {
 
 	function handlePlay() {
 		// TODO
+		isPlaying = true;
 	}
 
 	function handlePause() {
 		// TODO
+		isPlaying = false;
 	}
 
 
@@ -78,4 +84,16 @@ Player = function() {
 		$('#pause-btn').show();
 		handlePlay();
 	});
+
+	
+	setInterval(function(){
+		if(!isPlaying)
+			return;
+		++currentSongPercentDone;
+		updateSongProgressUI();
+	},100);
+
+	function updateSongProgressUI() {
+		$('#current-song-progress > .progress-bar').css({width: currentSongPercentDone/10+'%'});
+	}
 }
