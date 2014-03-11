@@ -51,9 +51,16 @@ Player = function() {
 		currentSong = newSong;
 		currentSongPercentDone = 0;
 
+		$('#player').empty();
+		$('#player').append('<source src="'+currentSong.fileLocation+'" type="audio/mp3">');
+		if(isPlaying) {
+			$('#player').get(0).play();
+		}
+
 		console.log(queuedSongs);
 		updateUIState();
 		updateSongProgressUI();
+
 		$('#current-song-title').text(currentSong.title);
 		$('#current-song-artist').text(currentSong.artist);
 		$('#current-song-icon').css({
@@ -64,10 +71,12 @@ Player = function() {
 	function handlePlay() {
 		// TODO
 		isPlaying = true;
+		$('#player').get(0).play();
 	}
 
 	function handlePause() {
 		// TODO
+		$('#player').get(0).pause();
 		isPlaying = false;
 	}
 
@@ -88,19 +97,6 @@ Player = function() {
 		handlePlay();
 	});
 
-	
-	setInterval(function(){
-		if(!isPlaying)
-			return;
-		++currentSongPercentDone;
-
-		if(currentSongPercentDone >= 100/3) {
-			that.nextSong();
-		}
-
-		updateSongProgressUI();
-	},100);
-
 	function updateUIState() {
 		if(queuedSongs.length === 0) {
 			$('#next-song-btn').addClass('disabled');
@@ -110,6 +106,16 @@ Player = function() {
 	}
 
 	function updateSongProgressUI() {
-		$('#current-song-progress > .progress-bar').css({width: currentSongPercentDone/3+'%'});
+		$('#current-song-progress > .progress-bar').css({width: currentSongPercentDone+'%'});
+	}
+
+	this.updateTimeOfCurrentSong = function(currentTime, duration){
+		currentSongPercentDone = currentTime/duration*100;
+
+		if(currentSongPercentDone >= 100) {
+			that.nextSong();
+		}
+
+		updateSongProgressUI();
 	}
 }
