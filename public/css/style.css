@@ -48,6 +48,10 @@ a:hover {
   text-align: left;
 }
 
+.song-info-list{
+  overflow: hidden;
+}
+
 .song-icon{
   display: inline-block;
   height: 50px;
@@ -56,9 +60,17 @@ a:hover {
   background-size: 50px;
 }
 
+.song-icon-list{
+  float: left;
+}
+
 .song-details{
   display: inline-block;
   margin-left: 5px;
+}
+
+.song-details-list{
+  float: left;
 }
 
 p.now-playing{
@@ -72,6 +84,19 @@ p.now-playing{
   margin-bottom: 0;
   background-color: rgb(34, 34, 34);
   background-image: none;
+}
+
+.queue{
+  height: 100%;
+  overflow: scroll;
+  overflow-x: hidden;
+  color: black;
+  background-color: rgb(221, 221, 221);
+  height: 450px;
+}
+
+.song-votes-count{
+  float: right;
 }
 
 
