@@ -1,10 +1,18 @@
-Player = function() {
+Player = function(party) {
 	var that = this;
 	var queuedSongs = [];
 	var playedSongs = []; 
 	var currentSong;
 	var currentSongPercentDone = 0;
 	var isPlaying;
+
+	this.initializeFromParty = function(party) {
+		playedSongs = party.playedSongs;
+		if(!party.currentSong)
+			handleChangeToSong(party.currentSong);
+		that.addSongsToQueue(party.queuedSongs);
+
+	}
 
 	this.addSongToQueue = function(song) {
 		if(!currentSong) {
@@ -69,13 +77,17 @@ Player = function() {
 	}
 
 	function handlePlay() {
-		// TODO
+		$('#play-btn').hide();
+		$('#pause-btn').show();
+		$('#current-song-progress').addClass('active');
 		isPlaying = true;
 		$('#player').get(0).play();
 	}
 
 	function handlePause() {
-		// TODO
+		$('#play-btn').show();
+		$('#pause-btn').hide();
+		$('#current-song-progress').removeClass('active');
 		$('#player').get(0).pause();
 		isPlaying = false;
 	}
@@ -86,14 +98,10 @@ Player = function() {
 	});
 
 	$('#pause-btn').click(function() {
-		$(this).hide();
-		$('#play-btn').show();
 		handlePause();
 	});
 
 	$('#play-btn').click(function() {
-		$(this).hide();
-		$('#pause-btn').show();
 		handlePlay();
 	});
 
@@ -175,4 +183,14 @@ Player = function() {
   		html: true,
   		content: htmlForInviteOthers
   	});
+
+  	$(document).keypress(function(e) {
+	    if(e.which == 32) {
+	        if(isPlaying) {
+	        	handlePause();
+	        } else{
+	        	handlePlay();
+	        }
+	    }
+	});
 }

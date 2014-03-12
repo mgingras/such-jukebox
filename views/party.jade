@@ -5,7 +5,9 @@ block content
   script(type="text/javascript").
     $(function(){
         player = new Player();
-        player.addSongsToQueue(!{JSON.stringify(songs)});
+        console.log(!{JSON.stringify(party)});
+        player.initializeFromParty(!{JSON.stringify(party)});
+        
         player.resizeQueue();
     });
   .site-wrapper
@@ -25,12 +27,13 @@ block content
                     ul.list-group(id="queued-songs")        
                 .player-controls(id="player-container")
                     p.now-playing Now Playing
-                    a(id="play-btn" class="btn btn-info btn-lg player-btn")
-                        span(class="glyphicon glyphicon-play")
-                    a(id="pause-btn", class="btn btn-info btn-lg player-btn", style="display:none;")
-                        span(class="glyphicon glyphicon-pause")
-                    a(id="next-song-btn", class="btn btn-info btn-lg player-btn")
-                        span(class="glyphicon glyphicon-forward")
+                    .player-btns.inline-block
+                      a(id="play-btn" class="btn btn-info btn-lg player-btn")
+                          span(class="glyphicon glyphicon-play")
+                      a(id="pause-btn", class="btn btn-info btn-lg player-btn", style="display:none;")
+                          span(class="glyphicon glyphicon-pause")
+                      a(id="next-song-btn", class="btn btn-info btn-lg player-btn")
+                          span(class="glyphicon glyphicon-forward")
                     .song-info
                         .song-icon(id="current-song-icon")
                         .song-details

@@ -9,6 +9,10 @@ var http = require('http');
 var path = require('path');
 var fs = require('fs');
 var app = express();
+var database = require('./database');
+var testPopulator = require('./test-db-populator');
+testPopulator.populate();
+
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -32,7 +36,7 @@ if ('development' == app.get('env')) {
 app.get('/', routes.index);
 app.get('/hosting', routes.hosting);
 app.get('/joining', routes.joining);
-app.get('/party', routes.party);
+app.get('/party/:id', routes.party);
 
 
 http.createServer(app).listen(app.get('port'), function(){

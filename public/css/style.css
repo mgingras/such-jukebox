@@ -131,6 +131,14 @@ p.inline{
   text-shadow: none;
 }
 
+.inline-block{
+  display: inline-block;
+}
+
+.player-btns{
+
+}
+
 
 /*
  * Base structure
@@ -293,5 +301,9 @@ body {
 
   #current-song-icon{
     display: none;
+  }
+
+  .song-info{
+    margin-left: 0;
   }
 }
