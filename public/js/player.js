@@ -164,4 +164,15 @@ Player = function() {
             height: $(window).height() - $('#header').height() - $('#player-container').height() - 35 - $('#on-top-queue').height()
         });
     }
+
+    var htmlForInviteOthers = 
+    '<div class="popover-content">'+
+    	'<br />Send your friends this link:'+
+    	'<input type="text" placeholder="Party Name" class="form-control" value="http://www.suchjukebox.com/party?id=1">'+
+    '</div>';
+
+    $('#invite-others-btn').popover({
+  		html: true,
+  		content: htmlForInviteOthers
+  	});
 }

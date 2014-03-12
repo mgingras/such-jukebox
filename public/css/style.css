@@ -33,10 +33,12 @@ a:hover {
   left: 0;
   position: fixed;
   width: 100%;
+  text-align: left;
 }
 .player-controls a.player-btn{
   padding:10px 15px;
   margin: 2px;
+  margin-left: 10px;
 }
 
 .song-info{
@@ -44,8 +46,8 @@ a:hover {
   margin-left: 20px;
   vertical-align: middle;
   margin-top: 9px;
-  max-width: 40%;
   text-align: left;
+  max-width: 60%
 }
 
 .song-info-list{
@@ -67,6 +69,7 @@ a:hover {
 .song-details{
   display: inline-block;
   margin-left: 5px;
+  max-width: 100%;
 }
 
 .song-details-list{
@@ -85,6 +88,13 @@ p.now-playing{
   margin-bottom: 0;
   background-color: rgb(34, 34, 34);
   background-image: none;
+}
+
+#current-song-title{ 
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: inherit;
 }
 
 .queue{
@@ -112,6 +122,13 @@ p.inline{
   height: 30px; 
   text-align:right; 
   margin-bottom: 6px;
+}
+
+.popover-content{
+  color: black;
+  display: inline;
+  text-align: center;
+  text-shadow: none;
 }
 
 
@@ -272,5 +289,9 @@ body {
     top: 0;
     right: 0;
     position: absolute;
+  }
+
+  #current-song-icon{
+    display: none;
   }
 }
