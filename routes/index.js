@@ -18,11 +18,57 @@ exports.joining = function(req,res){
 
 exports.party = function(req,res){
     var id = req.params.id;
+    var hostPassword = req.body.hostPassword;
+
     var party = database.getParty(id);
 
     if( ! party ) {
-        res.send('Party does not exist');
+        res.send({error: 'Party does not exist'});
+        return;
     }
 
-    res.render('party', {title: 'Such Jukebox!', party: party});
+    res.render('party', {
+    	title: 'Such Jukebox!', 
+    	party: party, 
+    	isHost: hostPassword === party.hostPassword
+    });
+}
+
+exports.hostParty = function(req,res){
+	var id = req.params.id;
+    var party = database.getParty(id);
+
+    if( ! party ) {
+        res.send({error: 'Party does not exist'});
+        return;
+    }
+
+    res.render('hostParty', {
+    	title: 'Such Jukebox!',
+    	partyId: id
+    });
+}
+
+
+exports.partyVoteSong = function(req,res){
+    var isVoteDown = req.body.isVoteDown;
+    var songQueueId = req.body.songQueueId;
+    var party = database.getParty(id);
+    if( ! party ) {
+        res.send({error: 'Party does not exist'});
+        return;
+    }
+
+    if( ! songQueueId ) {
+    	res.send({error: 'You need to give a songQueueId'});
+        return;
+    }
+
+    if(isVoteDown) {
+    	party.voteForSong(songQueueId, true);
+    } else {
+		party.voteForSong(songQueueId);
+    }
+
+    res.send({});
 }

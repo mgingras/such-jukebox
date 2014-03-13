@@ -37,7 +37,9 @@ app.get('/', routes.index);
 app.get('/hosting', routes.hosting);
 app.get('/joining', routes.joining);
 app.get('/party/:id', routes.party);
-
+app.post('/party/:id', routes.party);
+app.get('/party/:id/host', routes.hostParty);
+app.post('/party/:id/voteSong', routes.partyVoteSong);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

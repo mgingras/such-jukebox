@@ -97,12 +97,20 @@ Party = function(params) {
 	}	
 
 	this.voteForSong= function(songQueueId, isVoteDown){
+		var queuedSong = getQueuedSongById(songQueueId);
+		
+		if(!queuedSong)
+			return;
+		if(!isVoteDown)
+			queuedSong.voteUp();
+		else
+			queuedSong.voteDown();
+	}
+
+	this.getQueuedSongById = function(songQueueId) {
 		for(var i in that.queuedSongs) {
 			if(that.queuedSongs[i].id === songQueueId) {
-				if(!isVoteDown)
-					that.queuedSongs[i].voteUp();
-				else
-					that.queuedSongs[i].voteDown();
+				return that.queuedSongs[i];
 			}
 		}
 	}

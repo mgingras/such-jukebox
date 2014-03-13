@@ -1,10 +1,17 @@
-Player = function(party) {
+Player = function(isHost) {
 	var that = this;
 	var queuedSongs = [];
 	var playedSongs = []; 
 	var currentSong;
 	var currentSongPercentDone = 0;
 	var isPlaying;
+
+
+	if( ! isHost ) {
+		$('.host-only').hide();
+	} else {
+		$('.guest-only').hide();
+	}
 
 	this.initializeFromParty = function(party) {
 		playedSongs = party.playedSongs;
@@ -105,6 +112,14 @@ Player = function(party) {
 		handlePlay();
 	});
 
+	this.getQueuedSongById = function(songQueueId) {
+		for(var i in that.queuedSongs) {
+			if(that.queuedSongs[i].id === songQueueId) {
+				return that.queuedSongs[i];
+			}
+		}
+	}
+
 	function updateUIState() {
 		if(queuedSongs.length === 0) {
 			$('#next-song-btn').addClass('disabled');
@@ -171,6 +186,11 @@ Player = function(party) {
     	$('#song-queue').css({
             height: $(window).height() - $('#header').height() - $('#player-container').height() - 35 - $('#on-top-queue').height()
         });
+    }
+
+    this.voteSong = function(songQueueId, isVoteDown) {
+    	$.post( "voteSong", {songQueueId: songQueueId, isVoteDown: isVoteDown === true}, function( data ) {
+		});
     }
 
     var htmlForInviteOthers = 
