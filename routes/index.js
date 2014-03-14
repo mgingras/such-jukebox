@@ -154,3 +154,25 @@ exports.updateCurrentSong = function(req,res) {
 
     res.send({party: party});
 }
+
+exports.voteToSkipCurrentSong = function(req, res) {
+    var id = req.params.id;
+    var party = database.getParty(id);
+    var songQueueId = req.body.songQueueId;
+
+    if( ! party ) {
+        res.send({error: 'Party does not exist'});
+        return;
+    }
+
+    if(!songQueueId){
+        res.send({error: 'You need to provide a song queue id'});
+        return;
+    }
+
+    if(party.currentSong !== undefined && ''+party.currentSong.id === songQueueId) {
+        party.currentSong.voteToSkip();
+    }
+
+    res.send({party: party});
+}

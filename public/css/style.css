@@ -151,6 +151,12 @@ p.inline{
 
 }
 
+#song-votes-to-skip{
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
 
 /*
  * Base structure

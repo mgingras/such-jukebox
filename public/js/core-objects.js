@@ -14,6 +14,7 @@ SongInQueue = function(params) {
 	this.song;
 	this.ratioOfUpsToSkips = 0;
 	this.id;
+	this.numVotesToSkip = 0;
 
 	if(params) {
 		this.song = params.song;
@@ -23,6 +24,9 @@ SongInQueue = function(params) {
 		if(params.id){
 			this.id = params.id;
 		}
+		if(params.numVotesToSkip) {
+			this.numVotesToSkip = params.numVotesToSkip;
+		}
 	}
 
 	this.voteUp = function() {
@@ -30,6 +34,10 @@ SongInQueue = function(params) {
 	}
 	this.voteDown = function() {
 		that.ratioOfUpsToSkips--;
+	}
+
+	this.voteToSkip = function() {
+		that.numVotesToSkip++;
 	}
 }
 

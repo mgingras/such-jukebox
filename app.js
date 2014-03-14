@@ -45,6 +45,7 @@ app.get('/party/:id/becomeGuest', routes.becomeGuest);
 app.post('/party/:id/voteSong', routes.partyVoteSong);
 app.post('/party/:id/newState', routes.newPartyState);
 app.post('/party/:id/updateCurrentSong', routes.updateCurrentSong);
+app.post('/party/:id/voteToSkipCurrentSong', routes.voteToSkipCurrentSong);
 
 
 

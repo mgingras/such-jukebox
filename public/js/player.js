@@ -11,6 +11,7 @@ Player = function(isHost) {
 	if( ! isHost ) {
 		$('.host-only').hide();
 		$('#player').remove(); 
+		$('#next-song-btn').append('Skip');
 	} else {
 		$('.guest-only').hide();
 	}
@@ -18,8 +19,10 @@ Player = function(isHost) {
 	this.initializeFromParty = function(party) {
 		partyId = party.id;
 		playedSongs = party.playedSongs;
-		if(party.currentSong)
+		if(party.currentSong){
 			currentSong = party.currentSong;
+			resetPlayerWithCurrentSong();
+		}
 
 		that.addSongsToQueue(party.queuedSongs);
 	}
@@ -71,14 +74,18 @@ Player = function(isHost) {
 		currentSong = newSong;
 		currentSongPercentDone = 0;
 
+		resetPlayerWithCurrentSong();
+
+		updateUIState();
+		updateSongProgressUI();
+	}
+
+	function resetPlayerWithCurrentSong() {
 		$('#player').empty();
 		$('#player').append('<source src="'+currentSong.song.fileLocation+'" type="audio/mp3">');
 		if(isPlaying) {
 			$('#player').get(0).play();
 		}
-
-		updateUIState();
-		updateSongProgressUI();
 	}
 
 	function informServerOfSongChange(oldSong, newSong) {
@@ -91,10 +98,16 @@ Player = function(isHost) {
 			data.newSongId = newSong.id;
 		}
 
-		$.post( "/party/"+partyId+"/updateCurrentSong", data, function( data ) {
-			if(data.party) {
-				handleNewPartyState(data.party);
-			}
+		$.ajax({
+		  type: 'POST',
+		  url: "/party/"+partyId+"/updateCurrentSong",
+		  data: data,
+		  success: function( data ) {
+					  	if(data.party) {
+							handleNewPartyState(data.party);
+						}
+				   },
+		  async:true
 		});
 	}
 
@@ -120,19 +133,6 @@ Player = function(isHost) {
 		isPlaying = false;
 	}
 
-
-	$('#next-song-btn').click(function() {
-		that.nextSong();
-	});
-
-	$('#pause-btn').click(function() {
-		handlePause();
-	});
-
-	$('#play-btn').click(function() {
-		handlePlay();
-	});
-
 	this.getQueuedSongById = function(songQueueId) {
 		for(var i in queuedSongs) {
 			if(''+queuedSongs[i].id === ''+songQueueId) {
@@ -150,6 +150,7 @@ Player = function(isHost) {
 		}
 		updatePendingQueueUI();
 		updateCurrentSongUI();
+		updateVotesToSkipGui();
 	}
 
 	function updatePendingQueueUI() {
@@ -215,6 +216,21 @@ Player = function(isHost) {
 		$('#current-song-progress > .progress-bar').css({width: currentSongPercentDone+'%'});
 	}
 
+	function updateVotesToSkipGui() {
+		if(currentSong !== undefined) {
+			if(currentSong.userVotedToSkip) {
+				$('#vote-skip-song-btn').addClass('disabled');
+			} else {
+				$('#vote-skip-song-btn').removeClass('disabled');
+			}
+
+			if(currentSong.numVotesToSkip === undefined)
+				currentSong.numVotesToSkip = 0;
+
+			$('#song-votes-to-skip').text(currentSong.numVotesToSkip + ' votes to skip')
+		}
+	}
+
 	this.updateTimeOfCurrentSong = function(currentTime, duration){
 		currentSongPercentDone = currentTime/duration*100;
 
@@ -225,9 +241,7 @@ Player = function(isHost) {
 		updateSongProgressUI();
 	}
 
-	$( window ).resize(function() {
-        that.resizeQueue();
-    });
+	
 
     this.resizeQueue = function() {
     	$('#song-queue').css({
@@ -261,7 +275,14 @@ Player = function(isHost) {
 
     	updatePendingQueueUI();
 
-    	$.post( "/party/"+partyId+"/voteSong", {songQueueId: songQueueId, isVoteDown: isVoteDown === true}, function( data ) {
+
+    	$.ajax({
+		  type: 'POST',
+		  url: "/party/"+partyId+"/voteSong",
+		  data: {songQueueId: songQueueId, isVoteDown: isVoteDown === true},
+		  success: function( data ) {
+				   },
+		  async:true
 		});
     }
 
@@ -279,34 +300,50 @@ Player = function(isHost) {
     	return songQueueId;
     }
 
-    var htmlForInviteOthers = 
-    '<div class="popover-content">'+
-    	'<br />Send your friends this link:'+
-    	'<input type="text" placeholder="Party Name" class="form-control" value="http://www.suchjukebox.com/party?id=1">'+
-    '</div>';
+	/*
+		Guest Specific
+	*/
 
-    $('#invite-others-btn').popover({
-  		html: true,
-  		content: htmlForInviteOthers
-  	});
+	function handleVoteSkip() {
+		if(!currentSong)
+			return;
 
-  	$(document).keypress(function(e) {
-	    if(e.which == 32) {
-	        if(isPlaying) {
-	        	handlePause();
-	        } else{
-	        	handlePlay();
-	        }
-	    }
-	});
+		if(currentSong.numVotesToSkip === undefined)
+			currentSong.numVotesToSkip=0;
+		currentSong.numVotesToSkip++;
 
+		currentSong.userVotedToSkip = true;
+
+		$.ajax({
+		  type: 'POST',
+		  url: "/party/"+partyId+"/voteToSkipCurrentSong",
+		  data: {songQueueId: currentSong.id},
+		  success: function( data ) {
+						if(data.party) {
+							handleNewPartyState(data.party);
+						}
+					},
+		  async:true
+		});
+		updateVotesToSkipGui();
+		
+	}
+
+
+	/*
+		Server updates
+	*/
 
 	function receiveUpdatedParty() {
-		$.post( "/party/"+partyId+"/newState", function( data ) {
-			if(data.error || ! data.party)
-				return;
-			handleNewPartyState(data.party)
-			
+		$.ajax({
+		  type: 'POST',
+		  url: "/party/"+partyId+"/newState",
+		  success: function( data ) {
+						if(!data.error && data.party) {
+							handleNewPartyState(data.party);
+						}
+					},
+		  async:true
 		});
 	}
 
@@ -321,8 +358,73 @@ Player = function(isHost) {
 		queuedSongs = party.queuedSongs;
 		playedSongs = party.playedSongs;
 
+		if(party.currentSong !== undefined && party.currentSong.id !== currentSong.id && getQueuedSongById(party.currentSong.id) !== undefined) {
+			handleChangeToSong(party.currentSong);
+		} else if(party.currentSong !== undefined) {
+			currentSong.numVotesToSkip = party.currentSong.numVotesToSkip;
+		}
+
+		if(isHost) {
+			if(currentSong.numVotesToSkip > 3) {
+				that.nextSong();
+			}
+		}
+
 		updateUIState();
 	}
 
+
 	var updateTimer = setInterval(receiveUpdatedParty,5000);
+
+
+	/*
+		Event Listeners
+	*/
+
+	$(document).keypress(function(e) {
+	    if(e.which == 32) {
+	        if(isPlaying) {
+	        	handlePause();
+	        } else{
+	        	handlePlay();
+	        }
+	    }
+	});
+
+	$( window ).resize(function() {
+        that.resizeQueue();
+    });
+
+    $('#next-song-btn').click(function() {
+		that.nextSong();
+	});
+
+	$('#pause-btn').click(function() {
+		handlePause();
+	});
+
+	$('#play-btn').click(function() {
+		handlePlay();
+	});
+
+	$('#vote-skip-song-btn').click(function() {
+		handleVoteSkip();
+	});
+
+
+
+	/*
+		Perform on creation
+	*/
+
+	var htmlForInviteOthers = 
+    '<div class="popover-content">'+
+    	'<br />Send your friends this link:'+
+    	'<input type="text" placeholder="Party Name" class="form-control" value="http://www.suchjukebox.com/party?id=1">'+
+    '</div>';
+
+    $('#invite-others-btn').popover({
+  		html: true,
+  		content: htmlForInviteOthers
+  	});
 }
