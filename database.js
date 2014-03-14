@@ -27,6 +27,7 @@ var Database = function() {
 
 	this.addParty = function(party) {
 		currentPartyId++;
+		party.id = currentPartyId;
 		parties[currentPartyId] = party;
 	}
 

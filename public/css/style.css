@@ -106,7 +106,19 @@ p.now-playing{
 }
 
 .song-votes-count{
+  width: 80px;
+  float: left;
+}
+
+.song-votes-controls{
   float: right;
+  display: inline-block;
+}
+
+.queue-list-votes{
+  float: right;
+  width: 110px;
+  display: inline-block;
 }
 
 .margined-glyphicon{

@@ -23,6 +23,8 @@ app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
+app.use(express.cookieParser());
+app.use(express.session({secret: 'OMGTHISISSOOOOSECRET'}));
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -39,7 +41,12 @@ app.get('/joining', routes.joining);
 app.get('/party/:id', routes.party);
 app.post('/party/:id', routes.party);
 app.get('/party/:id/host', routes.hostParty);
+app.get('/party/:id/becomeGuest', routes.becomeGuest);
 app.post('/party/:id/voteSong', routes.partyVoteSong);
+app.post('/party/:id/newState', routes.newPartyState);
+app.post('/party/:id/updateCurrentSong', routes.updateCurrentSong);
+
+
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

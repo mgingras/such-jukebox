@@ -97,21 +97,59 @@ Party = function(params) {
 	}	
 
 	this.voteForSong= function(songQueueId, isVoteDown){
-		var queuedSong = getQueuedSongById(songQueueId);
+		var queuedSong = that.getQueuedSongById(songQueueId);
 		
-		if(!queuedSong)
+		if(!queuedSong){
+			console.log('Queued song with id ['+songQueueId+'] not found');
 			return;
-		if(!isVoteDown)
+		}
+		if(!isVoteDown){
+			console.log('Voting up for queuedSong with ID ['+songQueueId+'] in party with ID ['+that.id+']');
 			queuedSong.voteUp();
-		else
+		}
+		else{
+			console.log('Voting down for queuedSong with ID ['+songQueueId+'] in party with ID ['+that.id+']');
 			queuedSong.voteDown();
+		}
 	}
 
 	this.getQueuedSongById = function(songQueueId) {
 		for(var i in that.queuedSongs) {
-			if(that.queuedSongs[i].id === songQueueId) {
+			if(''+that.queuedSongs[i].id === ''+songQueueId) {
 				return that.queuedSongs[i];
 			}
+		}
+	}
+
+	function getQueuedSongIndexById(songQueueId) {
+		for(var i in that.queuedSongs) {
+			if(''+that.queuedSongs[i].id === ''+songQueueId) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	this.handleSongPlayed = function(songQueueId) {
+		if(that.currentSong != undefined && ''+that.currentSong.id === ''+songQueueId) {
+			that.playedSongs.push(that.currentSong);
+			that.currentSong = undefined;
+		} else {
+			var index = getQueuedSongIndexById(songQueueId);
+			if(index !== -1) {
+				that.playedSongs.push(that.queuedSongs[index]);
+				that.queuedSongs.splice(index, 1);
+			}
+		}
+	}
+
+	this.handleNewCurrentSong = function(songQueueId) {
+		var index = getQueuedSongIndexById(songQueueId);
+
+		if(index !== -1) {
+			that.currentSong = that.queuedSongs[index];
+			console.log('Changing current song to be ' + that.queuedSongs[index].song);
+			that.queuedSongs.splice(index, 1);
 		}
 	}
 
