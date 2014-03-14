@@ -235,8 +235,7 @@ Player = function(isHost) {
         });
     }
 
-    this.voteSong = function(songQueueId, isVoteDown, elem) {
-    	console.log(elem);
+    this.voteSong = function(songQueueId, isVoteDown) {
     	var song = that.getQueuedSongById(songQueueId);
     	if(!song) {
     		return;
@@ -252,6 +251,13 @@ Player = function(isHost) {
     	}
 
     	votedForSongs[songQueueId] = true;
+
+    	queuedSongs.sort(function(a,b){
+			var ratioA = a.ratioOfUpsToSkips !== undefined ? a.ratioOfUpsToSkips : 0;
+			var ratioB = b.ratioOfUpsToSkips !== undefined ? b.ratioOfUpsToSkips : 0;
+
+			return ratioB-ratioA;
+		});
 
     	updatePendingQueueUI();
 

@@ -111,6 +111,13 @@ Party = function(params) {
 			console.log('Voting down for queuedSong with ID ['+songQueueId+'] in party with ID ['+that.id+']');
 			queuedSong.voteDown();
 		}
+
+		that.queuedSongs.sort(function(a,b){
+			var ratioA = a.ratioOfUpsToSkips !== undefined ? a.ratioOfUpsToSkips : 0;
+			var ratioB = b.ratioOfUpsToSkips !== undefined ? b.ratioOfUpsToSkips : 0;
+
+			return ratioB-ratioA;
+		});
 	}
 
 	this.getQueuedSongById = function(songQueueId) {
