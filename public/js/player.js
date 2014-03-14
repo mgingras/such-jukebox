@@ -16,12 +16,17 @@ Player = function(isHost) {
 		$('.guest-only').hide();
 	}
 
+	//TODO REMOVE
+
+
+
 	this.initializeFromParty = function(party) {
 		partyId = party.id;
 		playedSongs = party.playedSongs;
 		if(party.currentSong){
 			currentSong = party.currentSong;
 			resetPlayerWithCurrentSong();
+			updateUIState();
 		}
 
 		that.addSongsToQueue(party.queuedSongs);
@@ -299,6 +304,19 @@ Player = function(isHost) {
 
     	return songQueueId;
     }
+
+    function goToSearch() {
+    	$('.player-only-elem').hide();
+    	$('.search-only-elem').show();
+    }
+
+    function goToPlayer() {
+    	$('.player-only-elem').show();
+    	$('.search-only-elem').hide();
+    }
+
+    this.goToPlayer = goToPlayer;
+    this.goToSearch = goToSearch;
 
 	/*
 		Guest Specific
