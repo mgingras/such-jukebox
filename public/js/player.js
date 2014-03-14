@@ -254,6 +254,12 @@ Player = function(isHost) {
         });
     }
 
+    this.resizeSearch = function() {
+    	$('#searchResultList').css({
+            height: $(window).height() - 220
+        });
+    }
+
     this.voteSong = function(songQueueId, isVoteDown) {
     	var song = that.getQueuedSongById(songQueueId);
     	if(!song) {
@@ -317,6 +323,11 @@ Player = function(isHost) {
 
     this.goToPlayer = goToPlayer;
     this.goToSearch = goToSearch;
+
+
+    function searchForSongs(query) {
+
+    }
 
 	/*
 		Guest Specific
@@ -411,6 +422,7 @@ Player = function(isHost) {
 
 	$( window ).resize(function() {
         that.resizeQueue();
+        that.resizeSearch();
     });
 
     $('#next-song-btn').click(function() {
@@ -429,6 +441,9 @@ Player = function(isHost) {
 		handleVoteSkip();
 	});
 
+	$('#search-songs-button').click(function() {
+		searchForSongs($('#search-songs-input').val());
+	});
 
 
 	/*
@@ -445,4 +460,6 @@ Player = function(isHost) {
   		html: true,
   		content: htmlForInviteOthers
   	});
+
+  	this.resizeSearch();
 }
