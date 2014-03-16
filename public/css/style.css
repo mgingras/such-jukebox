@@ -1,4 +1,5 @@
 body {
+  padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
@@ -24,136 +25,6 @@ a:hover {
   text-shadow: none; /* Prevent inheritence from `body` */
   background-color: #fff;
   border: 1px solid #fff;
-}
-
-.player-controls{
-  background-color: rgb(39, 39, 39);
-  bottom: 0;
-  left: 0;
-  position: fixed;
-  width: 100%;
-  text-align: left;
-}
-.player-controls a.player-btn{
-  padding:10px 15px;
-  margin: 2px;
-  margin-left: 10px;
-}
-
-.song-info{
-  display: inline-block;
-  margin-left: 20px;
-  vertical-align: middle;
-  margin-top: 9px;
-  text-align: left;
-  max-width: 60%
-}
-
-.song-info-list{
-  overflow: hidden;
-}
-
-.song-icon{
-  display: inline-block;
-  height: 50px;
-  width: 50px;
-  background-image: url(https://pbs.twimg.com/profile_images/2867464382/831afcdb38903ecc80f2cef099136878.png);
-  background-size: 50px;
-}
-
-.song-icon-list{
-  float: left;
-}
-
-.song-details{
-  display: inline-block;
-  margin-left: 5px;
-  max-width: 100%;
-}
-
-.song-details-list{
-  float: left;
-  text-align: left;
-}
-
-p.now-playing{
-  position: absolute;
-  margin: 5px;
-  color: rgb(134, 130, 130);
-  margin-top: -20px;
-}
-
-#current-song-progress{
-  margin-bottom: 0;
-  background-color: rgb(34, 34, 34);
-  background-image: none;
-}
-
-#current-song-title{ 
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-  max-width: inherit;
-}
-
-.queue{
-  overflow: scroll;
-  overflow-x: hidden;
-  color: black;
-  background-color: rgb(221, 221, 221);
-  height: 450px;
-}
-
-.song-votes-count{
-  width: 80px;
-  float: left;
-}
-
-.song-votes-controls{
-  float: right;
-  display: inline-block;
-}
-
-.queue-list-votes{
-  float: right;
-  width: 110px;
-  display: inline-block;
-}
-
-.margined-glyphicon{
-  margin-right: 5px;
-}
-
-p.inline{
-  display: inline;
-}
-
-.on-top-queue {
-  width:100%; 
-  height: 30px; 
-  text-align:right; 
-  margin-bottom: 6px;
-}
-
-.popover-content{
-  color: black;
-  display: inline;
-  text-align: center;
-  text-shadow: none;
-}
-
-.inline-block{
-  display: inline-block;
-}
-
-.player-btns{
-
-}
-
-#song-votes-to-skip{
-  position: absolute;
-  bottom: 0;
-  right: 0;
 }
 
 
@@ -268,12 +139,18 @@ body {
  */
 
 @media (min-width: 768px) {
+  /* Pull out the header and footer */
+  .masthead {
+    position: fixed;
+    top: 0;
+  }
   .mastfoot {
     position: fixed;
     bottom: 0;
   }
   /* Start the vertical centering */
   .site-wrapper-inner {
+    vertical-align: middle;
   }
   /* Handle the widths */
   .masthead,
@@ -288,40 +165,5 @@ body {
   .mastfoot,
   .cover-container {
     width: 700px;
-  }
-}
-
-@media (max-width: 768px) {
-  .player-controls{
-    width: 100%;
-  }
-
-  .queue{
-    height: 250px;
-  }
-
-  .inner{
-    padding: 0;
-  }
-
-  .site-wrapper{
-    top: 0;
-    right: 0;
-    position: absolute;
-  }
-
-  #current-song-icon{
-    display: none;
-  }
-
-  .song-info{
-    margin-left: 0;
-  }
-
-  .password-party-main{
-    margin-top: 30%;
-    width: 80%;
-    margin-left: auto;
-    margin-right: auto;
   }
 }
