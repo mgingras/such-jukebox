@@ -14,24 +14,35 @@ block content
                 | Hosting
               .row
                 .col-sm-offset-3.col-sm-6(style="padding-bottom:10px;")
-                  input.form-control(type="text", placeholder="Party Name")
+                  h4.pull-left Party Name:
+                  input#partyName.form-control(type="text", placeholder="Party Name")
+                  #nameWarn.alert.alert-danger(style='padding:5px;display:none;') Please enter a party name
               .row
                 .col-sm-offset-3.col-sm-6
                   .input-group
                     span Use my location: &nbsp;
                     //- http://www.bootstrap-switch.org/
-                    input.switch(type="checkbox", checked,data-on-color="success", data-size="small")
+                    input#location.switch(type="checkbox",data-on-color="success", data-size="small")
                     script $(".switch").bootstrapSwitch();
               .row
                 .col-sm-offset-3.col-sm-6
-                  h4.pull-left Fallback genre
+                  h4.pull-left Fallback genre:
               .row
                 .col-sm-offset-3.col-sm-6
-                  p.
-                    Songs from this genre will populate the playlist if there are no songs submitted by users
+                  select#fallback.form-control(multiple)
+                    option Top 40
+                    option Hip-hop
+                    option Pop
+                    option Rap
+                    option Pop
+                  #fallbackWarn.alert.alert-danger(style='padding:5px;display:none;') Please enter a fallback genre
               .row
-                .col-sm-offset-6.col-sm-4(style="padding-bottom:10px;")
-                  .btn-group
+                .col-sm-offset-3.col-sm-6(style="padding-bottom:10px;")
+                  .caption
+                    p
+                      | Songs from this genre will populate the playlist if there are no songs submitted by users
+
+                  //- .btn-group
                     button.btn.btn-default.btn-sm.dropdown-toggle(type="button", data-toggle="dropdown") Fallback Genre
                     ul.dropdown-menu(style="color:black;")
                       li Top 40
@@ -43,7 +54,8 @@ block content
                 .col-sm-offset-2.col-sm-3(style="padding-bottom:10px;")
                   a.btn.btn-lg.btn-danger(href='/') Back
                 .col-sm-offset-3.col-sm-3
-                  a.btn.btn-lg.btn-success(href='/party') Start the party
+                  a#host.btn.btn-lg.btn-success Start the party
             .mastfoot
               .inner
                 p(style="color:white;") Much fun to be had here
+  script(src='/js/hosting.js')
