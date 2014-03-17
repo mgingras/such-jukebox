@@ -457,7 +457,7 @@ var updateTimer = setInterval(receiveUpdatedParty,5000);
       '<i class="fa fa-facebook-square fa-lg" style="color:#00B7FF;"></i>'+
     '</a>'+
     '&nbsp;'+
-    '<a href="https://twitter.com/intent/tweet?text=Start%20controlling%20the%20playlist%20for%20my%20party!%20Go%20to:%20&url='+encodeURIComponent(window.location.toString())+'" target="_blank">'+
+    '<a href="https://twitter.com/intent/tweet?text=Start%20controlling%20the%20playlist%20for%20my%20party!%20Go%20to:&url='+encodeURIComponent(window.location.toString())+'" target="_blank">'+
       '<i class="fa fa-twitter-square fa-lg" style="color:#00B7FF;"></i>'+
     '</a>'+
     '&nbsp;'+
