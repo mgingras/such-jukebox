@@ -44,14 +44,19 @@
       console.log("Party Name: " + name);
       $.get('/party/search', {partyName: name}, function(data){
         var html = '';
+        console.log(data.length);
+        if(data.length === 0){
+          console.log('here');
+          html += '<a class="list-group-item">No Parties Found...</a>';
+        }
+        console.log(html);
         data.forEach(function(party){
-          console.dir(party);
           html += '<a id="party_' + party.id + '" class="list-group-item party">'+
                   party.name + '</a>';
         });
+        console.log(html);
         $('#partyKeyword').html('Parties Found');
         $('#parties').html(html);
-        // console.dir(data)
       });
     }
     else{
@@ -63,7 +68,6 @@
 
   $(document).bind('keypress', function(e){
     if(document.activeElement.id !== "partyName"){
-      console.log("here: ");
       if(e.charCode === 13){
         return $('#join').click();
       }
