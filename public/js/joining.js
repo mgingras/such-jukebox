@@ -49,6 +49,7 @@
       revGeocode(location, function(where){
         $('#locationName').html(where);
         $('.location').css('color', '#5cb85c');
+        $('#partyKeyword').html('Nearby')
       });
     });
     }
