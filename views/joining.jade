@@ -33,11 +33,15 @@ block content
                   #warn.alert.alert-danger(style='padding:5px;display:none;') Please select a party
               .row
                 .col-sm-offset-6.col-sm-3
-                  p Your location:&nbsp;
-                    span.location(style="color:#5a97bd;")
-                      i#location.fa.fa-location-arrow Unknown
-                  a.pull-right(href="#")
-                    small Find me...
+                  p.pull-right Your location:&nbsp;
+                    span.location(style="color:#d9534f")
+                      i.fa.fa-location-arrow(style='display:inline;')
+                      span#locationName Unknown
+                  br
+                  a#find.pull-right(style="cursor: pointer;color:#00B7FF;")
+                    small
+                      i.fa.fa-crosshairs.fa-lg &nbsp;
+                    | Find me...
               .row
                 br
                 .col-sm-offset-2.col-sm-3(style="padding-bottom:10px")
