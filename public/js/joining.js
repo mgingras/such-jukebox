@@ -67,7 +67,7 @@
 
       // console.dir(resp);
       respGranularity = resp.results[resp.results.length-3];
-      console.dir(respGranularity);
+      // console.dir(respGranularity);
       callback(respGranularity.address_components[0].long_name + ', ' + respGranularity.address_components[respGranularity.address_components.length - 1].short_name);
     });
 

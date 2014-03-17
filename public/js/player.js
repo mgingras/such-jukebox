@@ -208,10 +208,10 @@
     '</div>'+
     '<div class="queue-list-votes">'+
     '<div class="song-votes-controls">'+
-    '<a href="#" onclick="javascript: player.voteSong('+song.id+', false)" class="btn btn btn-success btn-xs vote-song-up-btn '+voteDisabled+'" style="margin-bottom: 2px;"><span class="glyphicon glyphicon-hand-up"></span></a><br />'+
-    '<a href="#" onclick="javascript: player.voteSong('+song.id+', true)" class="btn btn btn-danger btn-xs vote-song-down-btn '+voteDisabled+'"><span class="glyphicon glyphicon-hand-down"></span></a>'+
+    '<a onclick="javascript: player.voteSong('+song.id+', false)" class="btn btn btn-success btn-xs vote-song-up-btn '+voteDisabled+'" style="margin-bottom: 2px;"><span class="fa fa-thumbs-up"></span></a><br />'+
+    '<a onclick="javascript: player.voteSong('+song.id+', true)" class="btn btn btn-danger btn-xs vote-song-down-btn '+voteDisabled+'"><span class="fa fa-thumbs-down"></span></a>'+
     '</div>'+
-    '<a href="#" class="btn btn btn-default '+buttonType+' btn-lg disabled song-votes-count"><span class="glyphicon glyphicon-hand-'+upOrDown+'">'+song.ratioOfUpsToSkips+'</span></a>'+
+    '<a class="btn btn btn-default '+buttonType+' btn-lg disabled song-votes-count"><span class="fa fa-thumbs-'+upOrDown+'">'+song.ratioOfUpsToSkips+'</span></a>'+
     '</div>'+
     '</div>'+
     '</li>';
