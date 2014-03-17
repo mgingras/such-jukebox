@@ -4,56 +4,60 @@ block content
   .site-wrapper
       .site-wrapper-inner
           .cover-container
-            .masthead.clearfix(id="header")
+            #header.masthead.clearfix
               .inner
                 .masthead-brand
                   img.img-rounded(src="/img/dodge.jpg", width="50px", style="float:left;margin-right:3px;")
-                  a(href='/')
-                    h3.pull-left Such Jukebox
+                  h3.pull-left Such Jukebox
             .inner.cover
-                .on-top-queue(id="on-top-queue")
+                #on-top-queue.on-top-queue
                     a.btn.btn-warning.btn-sm.player-only-elem(style="margin-right: 5px;", onclick="player.goToSearch()")
                       span.glyphicon.glyphicon-plus
                       | Add A Song
                     a.btn.btn-warning.btn-sm.search-only-elem(style="margin-right: 5px; display:none;", onclick="player.goToPlayer()")
                       span.glyphicon.glyphicon-arrow-left
                       | Back To Player
-                    a(id="invite-others-btn", class="btn btn-info btn-sm" data-container="body", data-toggle="popover", data-placement="bottom")
+                    a#invite-others-btn(class="btn btn-info btn-sm" data-container="body", data-toggle="popover", data-placement="bottom")
                         span(class="glyphicon glyphicon-envelope margined-glyphicon")
                         |Invite Guests
                 .queueAndPlayer.player-only-elem
-                  ul.list-group.queue(id="song-queue")
-                      ul.list-group(id="queued-songs", style="margin-bottom:0px;")
-                  .player-controls(id="player-container")
-                      p.now-playing.lead(style="color:white;") Now Playing
-                      span.label.label-default(id="song-votes-to-skip", style="margin-left: 6px;")
+                  ul#song-queue.list-group.queue(style="margin-bottom:0px;")
+                      ul#queued-songs.list-group(style="margin-bottom:0px;")
+                  #player-container.player-controls
+                      .nowPlaying
+                        p.now-playing.lead(style="color:white;") Now Playing
+                      span#song-votes-to-skip.label.label-default(style="margin-left: 6px;")
                           |0 Votes to Skip
                       .player-btns.inline-block
-                        a.host-only(id="play-btn" class="btn btn-info btn-lg player-btn")
+                        a#play-btn.host-only(class="btn btn-info btn-lg player-btn")
                             span(class="glyphicon glyphicon-play")
-                        a.host-only(id="pause-btn", class="btn btn-info btn-lg player-btn", style="display:none;")
+                        a#pause-btn.host-only(class="btn btn-info btn-lg player-btn", style="display:none;")
                             span(class="glyphicon glyphicon-pause")
-                        a.host-only(id="next-song-btn", class="btn btn-info btn-lg player-btn")
+                        a#next-song-btn.host-only(class="btn btn-info btn-lg player-btn")
                             span(class="glyphicon glyphicon-forward")
-                        a.guest-only(id="vote-skip-song-btn", class="btn btn-info btn-lg player-btn")
+                        a#vote-skip-song-btn.guest-only(class="btn btn-info btn-lg player-btn")
                             span(class="glyphicon glyphicon-step-forward")
-                            |Skip
+                          #voteToSkip.caption.guest-only
+                            small vote to skip
                       .song-info
-                          .song-icon(id="current-song-icon")
+                          #current-song-icon.song-icon
                           .song-details
-                              p(id="current-song-title")
-                              p(id="current-song-artist")
-                      .progress.progress-striped.active.host-only(id="current-song-progress")
+                              p#current-song-title
+                              p#current-song-artist
+                      #current-song-progress.progress.progress-striped.active.host-only
                           .progress-bar.progress-bar-info(role="progressbar", aria-valuenow="60", aria-valuemin="0", aria-valuemax="100", style="width: 0;")
-                      audio.host-only(preload="auto", id="player", autobuffer, ontimeupdate="player.updateTimeOfCurrentSong(this.currentTime, this.duration)")
+                      audio#player.host-only(preload="auto", autobuffer, ontimeupdate="player.updateTimeOfCurrentSong(this.currentTime, this.duration)")
                 .search-only-elem(style="display:none;")
                   .input-group(style="margin-top: 25px;")
-                    input.form-control(type="text", id="search-songs-input")
+                    input#search-songs-input.form-control(type="text")
                     span.input-group-btn
-                      button.btn.btn-default(type="button", id="search-songs-button")
+                      button#search-songs-button.btn.btn-default(type="button")
                         .fa.fa-search
-                  ul.list-group.queue(style="height:100%;", id="searchResultList")
+                  ul#searchResultList.list-group.queue(style="height:100%;")
                     ul.list-group()
+  .home
+    a(href='/')
+      i.fa.fa-home.fa-3x
 
   script.
     $(function(){

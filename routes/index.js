@@ -22,7 +22,6 @@ exports.joining = function(req,res){
 }
 
 exports.party = function(req,res){
-    console.log("HERE");
     var id = req.params.id;
     var hostPassword = req.body.hostPassword;
 

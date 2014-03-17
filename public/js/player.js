@@ -395,8 +395,10 @@ function searchForSongs(query) {
  }
 
  if(isHost) {
-   if(currentSong.numVotesToSkip > 3) {
-    that.nextSong();
+  if(currentSong){
+     if(currentSong.numVotesToSkip > 3) {
+      that.nextSong();
+    }
   }
 }
 
