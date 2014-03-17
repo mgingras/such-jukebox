@@ -1,5 +1,6 @@
 var objects = require('../public/js/core-objects')
 var database = require('../database');
+var Levenshtein = require('levenshtein');
 /*
  * GET home page.
  */
@@ -13,8 +14,8 @@ exports.hosting = function(req,res){
 }
 
 exports.joining = function(req,res){
-  parties = database.getParties();
-  partyNames = [];
+  var parties = database.getParties();
+  var partyNames = [];
   for(var key in parties){
     partyNames.push({name: parties[key].name, id: parties[key].id});
   }
@@ -193,4 +194,19 @@ exports.voteToSkipCurrentSong = function(req, res) {
     }
 
     res.send({party: party});
+}
+
+exports.findParty = function(req, res) {
+  var parties = database.getParties();
+  var partyNames = [];
+  var l = null;
+  for(var key in parties){
+    l = new Levenshtein(req.query.partyName, parties[key].name);
+    console.log(parties[key].name + ": " + l.distance);
+    if(l <= 8)
+        partyNames.push({name: parties[key].name, id: parties[key].id});
+  }
+  res.send(partyNames);
+  // console.dir(partyNames);
+  // console.dir(req.query);
 }

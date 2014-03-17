@@ -11,11 +11,18 @@
     }
   });
 
+  $(document).bind('keypress', function(e){
+      if(e.charCode === 13){
+        return $('#host').click();
+      }
+  });
+
   $('#host').on('click', function(){
-    var fallbackGenre = $('#fallback').val()[0];
+
+    var fallbackGenre = $('#fallback').val();
     var partyName = $('#partyName').val();
     var validName = partyName.length > 0;
-    var validGenre = fallbackGenre != null;
+    var validGenre = fallbackGenre !== "--- Select a Genre ---";
     var genreID = undefined;
 
     if(!validName){
@@ -52,6 +59,7 @@
     }
 
   })
+
   var getLocation = function(){
     if(navigator.geolocation){
       navigator.geolocation.getCurrentPosition(function(position){

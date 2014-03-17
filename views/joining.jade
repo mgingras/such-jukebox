@@ -36,10 +36,9 @@ block content
                 br
                 .col-sm-offset-3.col-sm-6
                   h3(style="text-align:left;")
-                    span#partyKeyword Popular
-                    | &nbsp;Parties:
+                    span#partyKeyword Popular Parties:
                   #parties.list-group(style='margin-bottom:10px;')
-                    for party in partyNames
+                    for party in parties
                       a.list-group-item.party(id="party_#{party.id}")= party.name
                   #warn.alert.alert-danger(style='padding:5px;display:none;') Please select a party
               .row

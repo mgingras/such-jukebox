@@ -3,7 +3,7 @@
   var location = null;
   var google_api_key = 'AIzaSyCK0OyxfiEJke5f5Z7xYxMN9MFs21jT-5Y';
 
-  $('.party').on('click', function(){
+  $(document).on('click', '.party', function(){
     if(selectedParty){
       $(selectedParty).removeClass('active');
     }
@@ -15,7 +15,6 @@
     if(selectedParty == null){
       $('#warn').css('display', 'block');
       $('#parties').css('border', '3px solid #b94a48');
-
       return;
     }
     var partyID = selectedParty.id;
@@ -30,7 +29,6 @@
     });
   });
 
-
   $('#find').on('click', function(){
     $('.location').css('color', '#eb9316');
     $('#locationName').html("Searching...");
@@ -43,17 +41,41 @@
       $('#name-label').css('visibility', 'hidden');
       $('#name-group').removeClass('has-error');
       $('#search').css('border', '#DDDDDD 1px solid');
-      $.get('/party/search', {})
+      console.log("Party Name: " + name);
+      $.get('/party/search', {partyName: name}, function(data){
+        var html = '';
+        data.forEach(function(party){
+          console.dir(party);
+          html += '<a id="party_' + party.id + '" class="list-group-item party">'+
+                  party.name + '</a>';
+        });
+        $('#partyKeyword').html('Parties Found');
+        $('#parties').html(html);
+        // console.dir(data)
+      });
     }
     else{
       $('#name-label').css('visibility', 'visible');
       $('#name-group').addClass('has-error');
       $('#search').css('border', '#a94442 1px solid');
-
-
-
     }
   });
+
+  $(document).bind('keypress', function(e){
+    if(document.activeElement.id !== "partyName"){
+      console.log("here: ");
+      if(e.charCode === 13){
+        return $('#join').click();
+      }
+    }
+  });
+
+  $('#partyName').bind('keypress',function(e){
+    if(e.charCode === 13){
+      return $('#search').click();
+    }
+  });
+
 
   var getLocation = function(){
   if(navigator.geolocation){
@@ -66,7 +88,7 @@
       revGeocode(location, function(where){
         $('#locationName').html(where);
         $('.location').css('color', '#5cb85c');
-        $('#partyKeyword').html('Nearby')
+        $('#partyKeyword').html('Parties Nearby');
       });
     });
     }
