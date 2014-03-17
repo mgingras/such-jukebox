@@ -451,23 +451,20 @@ var updateTimer = setInterval(receiveUpdatedParty,5000);
     Perform on creation
     class="popover-content" style="color:#00B7FF;
    */
-  var fb = "<div id='fb-root'></div>"+
-  "<script>(function(d, s, id) {"+
-  "var js, fjs = d.getElementsByTagName(s)[0];"+
-  "if (d.getElementById(id)) return;"+
-  "js = d.createElement(s); js.id = id;"+
-  "js.src = '//connect.facebook.net/en_US/all.js#xfbml=1';"+
-  "fjs.parentNode.insertBefore(js, fjs);"+
-  "}(document, 'script', 'facebook-jssdk'));</script>";
 
-    var htmlForInviteOthers = '<div class="popover-content">'+
-    '<a href="https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(window.location.toString())+'" target="_blank">'+
+    var htmlForInviteOthers = '<div class="popover-content"><br>'+
+    '<a href="https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(window.location.toString())+'" target="_blank" style="padding-left:10px;">'+
       '<i class="fa fa-facebook-square fa-lg" style="color:#00B7FF;"></i>'+
     '</a>'+
     '&nbsp;'+
-    '<a href=mailto:?subject=Join%20my%20party%20at%20Such%20Jukebox!!!&body=Start%20controlling%20the%20playlist%20for%20my%20party!%20Go%20to:%20'+window.location.toString()+'>'+
+    '<a href="https://twitter.com/intent/tweet?text=Start%20controlling%20the%20playlist%20for%20my%20party!%20Go%20to:%20&url='+encodeURIComponent(window.location.toString())+'" target="_blank">'+
+      '<i class="fa fa-twitter-square fa-lg" style="color:#00B7FF;"></i>'+
+    '</a>'+
+    '&nbsp;'+
+    '<a href="mailto:?subject=Join%20my%20party%20at%20Such%20Jukebox!!!&body=Start%20controlling%20the%20playlist%20for%20my%20party!%20Go%20to:%20'+window.location.toString()+'" style="padding-right:10px;">'+
       '<i class="fa fa-envelope fa-lg" style="color:#00B7FF;"></i>'+
     '</a>'+
+    '<br><br>'+
   '</div>';
 
    $('#invite-others-btn').popover({

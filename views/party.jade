@@ -12,13 +12,13 @@ block content
                     h3.pull-left Such Jukebox
             .inner.cover
                 .on-top-queue(id="on-top-queue")
-                    a.btn.btn-warning.btn-sm.player-only-elem(href='#', style="margin-right: 5px;", onclick="player.goToSearch()")
+                    a.btn.btn-warning.btn-sm.player-only-elem(style="margin-right: 5px;", onclick="player.goToSearch()")
                       span.glyphicon.glyphicon-plus
                       | Add A Song
-                    a.btn.btn-warning.btn-sm.search-only-elem(href='#', style="margin-right: 5px; display:none;", onclick="player.goToPlayer()")
+                    a.btn.btn-warning.btn-sm.search-only-elem(style="margin-right: 5px; display:none;", onclick="player.goToPlayer()")
                       span.glyphicon.glyphicon-arrow-left
                       | Back To Player
-                    a(href="#", id="invite-others-btn", class="btn btn-info btn-sm" data-container="body", data-toggle="popover", data-placement="bottom")
+                    a(id="invite-others-btn", class="btn btn-info btn-sm" data-container="body", data-toggle="popover", data-placement="bottom")
                         span(class="glyphicon glyphicon-envelope margined-glyphicon")
                         |Invite Guests
                 .queueAndPlayer.player-only-elem
