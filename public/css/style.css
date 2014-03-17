@@ -190,6 +190,11 @@ p.inline{
   padding-left:-5px;
   padding-right:-5px;
 }
+#search{
+  border:#DDDDDD 1px solid;
+  z-index:10;
+  margin-top:22px;
+}
 
 /*
  * Base structure

@@ -37,6 +37,23 @@
     getLocation();
   });
 
+  $('#search').on('click', function(){
+    var name = $('#partyName').val();
+    if(name.length > 0){
+      $('#name-label').css('visibility', 'hidden');
+      $('#name-group').removeClass('has-error');
+      $('#search').css('border', '#DDDDDD 1px solid');
+      $.get('/party/search', {})
+    }
+    else{
+      $('#name-label').css('visibility', 'visible');
+      $('#name-group').addClass('has-error');
+      $('#search').css('border', '#a94442 1px solid');
+
+
+
+    }
+  });
 
   var getLocation = function(){
   if(navigator.geolocation){

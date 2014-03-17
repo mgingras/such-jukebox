@@ -18,11 +18,20 @@ block content
                     Enter the name of the party to search for or select a nearby party from the list
               .row
                 .col-sm-offset-4.col-sm-5
-                  .input-group
-                    input.form-control(type="text")
-                    span.input-group-btn
-                      button.btn.btn-default(type="button")
-                        .fa.fa-search
+                  //- .input-group
+                  //-   input#partyName.form-control(type="text", placeholder="Party's Name")
+                  //-   span.input-group-btn
+                  //-     button#search.btn.btn-default(type="button")
+                  //-       .fa.fa-search
+                  #name-group.form-group
+                    .input-group
+                      label#name-label.control-label.pull-left(for="partyName", style="visibility:hidden;") Enter party to search for
+                      input#partyName.form-control(type="text", placeholder="Party's Name")
+                      span.input-group-btn
+                        button#search.btn.btn-default(type="button")
+                          .fa.fa-search
+                          |&nbsp;Search
+
               .row
                 br
                 .col-sm-offset-3.col-sm-6
