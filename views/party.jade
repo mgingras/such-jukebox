@@ -4,6 +4,9 @@ block content
   .site-wrapper
       .site-wrapper-inner
           .cover-container
+            .home.pull-right(style='position:relative;')
+              a(href='/')
+                i.fa.fa-home.fa-3x
             #header.masthead.clearfix
               .inner
                 .masthead-brand
@@ -55,9 +58,6 @@ block content
                         .fa.fa-search
                   ul#searchResultList.list-group.queue(style="height:100%;")
                     ul.list-group()
-  .home
-    a(href='/')
-      i.fa.fa-home.fa-3x
 
   script.
     $(function(){

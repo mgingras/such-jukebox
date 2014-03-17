@@ -26,7 +26,9 @@ block content
               .row
                 br
                 .col-sm-offset-3.col-sm-6
-                  h3(style="text-align:left;") Parties:
+                  h3(style="text-align:left;")
+                    span#partyKeyword Popular
+                    | &nbsp;Parties:
                   #parties.list-group(style='margin-bottom:10px;')
                     for party in partyNames
                       a.list-group-item.party(id="party_#{party.id}")= party.name
@@ -37,11 +39,13 @@ block content
                     span.location(style="color:#d9534f")
                       i.fa.fa-location-arrow(style='display:inline;')
                       span#locationName Unknown
-                  br
+              .row
+                .col-sm-offset-6.col-sm-3
                   a#find.pull-right(style="cursor:pointer;")
                     small
                       i.fa.fa-crosshairs.fa-lg &nbsp;
                     | Find me...
+
               .row
                 br
                 .col-sm-offset-2.col-sm-3(style="padding-bottom:10px")
