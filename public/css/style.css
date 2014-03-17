@@ -1,5 +1,6 @@
 body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  min-height:630px;
 }
 
 a {
@@ -9,12 +10,6 @@ a {
  * Globals
  */
 
-/* Links */
-a,
-a:focus,
-a:hover {
-  color: #fff;
-}
 
 /* Custom default button */
 .btn-default,
@@ -27,17 +22,27 @@ a:hover {
 }
 
 .player-controls{
-  background-color: rgb(39, 39, 39);
+  border:white solid 1px;
+  background-color: #444444;
   bottom: 0;
   left: 0;
   position: fixed;
   width: 100%;
   text-align: left;
+  margin-bottom:-10px;
+  padding-bottom:10px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -khtml-border-radius: 10px;
+  border-radius: 10px;
 }
 .player-controls a.player-btn{
   padding:10px 15px;
   margin: 2px;
   margin-left: 10px;
+}
+#vote-skip-song-btn{
+  margin-bottom: 5px;
 }
 
 .song-info{
@@ -77,10 +82,9 @@ a:hover {
 }
 
 p.now-playing{
-  position: absolute;
-  margin: 5px;
-  color: rgb(134, 130, 130);
-  margin-top: -20px;
+  margin-bottom: 0px;
+  margin-left:10px;
+  color:white;
 }
 
 #current-song-progress{
@@ -89,11 +93,26 @@ p.now-playing{
   background-image: none;
 }
 
-#current-song-title{ 
+#current-song-title{
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
   max-width: inherit;
+}
+.home{
+  margin:-10px;
+  padding-top:25px;
+  border:white solid 1px;
+  background-color: #444444;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -khtml-border-radius: 10px;
+  border-radius: 10px;
+  position:relative;
+  top:0;
+  right:20px;
+  height:70px;
+  width:50px;
 }
 
 .queue{
@@ -129,9 +148,9 @@ p.inline{
 }
 
 .on-top-queue {
-  width:100%; 
-  height: 30px; 
-  text-align:right; 
+  width:100%;
+  height: 30px;
+  text-align:right;
   margin-bottom: 6px;
 }
 
@@ -152,10 +171,25 @@ p.inline{
 
 #song-votes-to-skip{
   position: absolute;
+  margin-bottom:10px;
   bottom: 0;
   right: 0;
 }
 
+#voteToSkip{
+  position:absolute;
+  bottom:0;
+  left:5px;
+  margin-bottom:10px
+}
+#invite-others-btn{
+  margin-right:30px;
+}
+.share-box{
+  width:100%;
+  padding-left:-5px;
+  padding-right:-5px;
+}
 
 /*
  * Base structure
@@ -183,10 +217,15 @@ body {
 .site-wrapper-inner {
   display: table-cell;
   vertical-align: top;
+  height:100%;
+  width:100%;
 }
 .cover-container {
   margin-right: auto;
   margin-left: auto;
+  height:100%;
+  width:100%;
+  position:relative;
 }
 
 /* Padding for spacing */
@@ -260,6 +299,12 @@ body {
 .mastfoot {
   color: #999; /* IE8 proofing */
   color: rgba(255,255,255,.5);
+  position: absolute;
+  bottom:0;
+  text-align:center;
+  width:100%;
+  left:0;
+  /*margin-top:20px;*/
 }
 
 
@@ -269,7 +314,7 @@ body {
 
 @media (min-width: 768px) {
   .mastfoot {
-    position: fixed;
+    position: absolute;
     bottom: 0;
   }
   /* Start the vertical centering */
@@ -307,7 +352,7 @@ body {
   .site-wrapper{
     top: 0;
     right: 0;
-    position: absolute;
+    /*position: absolute;*/
   }
 
   #current-song-icon{
@@ -316,6 +361,7 @@ body {
 
   .song-info{
     margin-left: 0;
+    margin-top:5px;
   }
 
   .password-party-main{
@@ -323,5 +369,9 @@ body {
     width: 80%;
     margin-left: auto;
     margin-right: auto;
+  }
+  #voteToSkip{
+    padding-left:8px;
+    font-size:70%;
   }
 }

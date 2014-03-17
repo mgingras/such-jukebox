@@ -13,7 +13,12 @@ exports.hosting = function(req,res){
 }
 
 exports.joining = function(req,res){
-  res.render('joining', {title: 'Such Jukebox!' });
+  parties = database.getParties();
+  partyNames = [];
+  for(var key in parties){
+    partyNames.push({name: parties[key].name, id: parties[key].id});
+  }
+  res.render('joining', {title: 'Such Jukebox!', parties: partyNames });
 }
 
 exports.party = function(req,res){
@@ -33,7 +38,7 @@ exports.party = function(req,res){
         console.log('Host is accessing party page for party with ID ['+id+']');
         isHost = true;
     }
-    
+
     if( !isHost && hostPassword !== undefined && hostPassword === party.hostPassword ) {
         console.log('Host is accessing party page for party with ID ['+id+']');
         if(req.session.host === undefined) {
@@ -44,8 +49,8 @@ exports.party = function(req,res){
     }
 
     res.render('party', {
-    	title: 'Such Jukebox!', 
-    	party: party, 
+    	title: 'Such Jukebox!',
+    	party: party,
     	isHost: isHost
     });
 }
@@ -64,8 +69,17 @@ exports.hostParty = function(req,res){
     	partyId: id
     });
 }
+exports.createParty = function(req,res){
+    var party = new Party(req.body);
+    database.addParty(party);
+    party.hostPassword = 'root'
+    req.session.host = {};
+    req.session.host[party.id] = true;
+    res.send({partyId: party.id});
+}
 
 exports.becomeGuest = function(req, res) {
+    console.log("Become Guest");
     var id = req.params.id;
     var party = database.getParty(id);
 
@@ -76,7 +90,11 @@ exports.becomeGuest = function(req, res) {
 
     if(req.session.host)
         req.session.host[id] = undefined;
-    res.send({});
+    if(req.session)
+        console.log(req.session);
+    req.session.party = id;
+    req.session.id = party.getClientID();
+    res.send();
 }
 
 

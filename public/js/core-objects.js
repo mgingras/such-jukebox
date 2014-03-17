@@ -65,6 +65,11 @@ Party = function(params) {
 	this.currentSong = params.currentSong;
 	this.playedSongs = [];
 	this.hostPassword = params.hostPassword;
+	this.currID = 0;
+
+	this.getClientID = function(){
+		return this.currID;
+	}
 
 
 	this.addSongToQueue = function(song) {
@@ -102,11 +107,11 @@ Party = function(params) {
 		var queuedSongs = that.queuedSongs;
 		that.queuedSongs = [];
 		that.addSongsToQueue(queuedSongs);
-	}	
+	}
 
 	this.voteForSong= function(songQueueId, isVoteDown){
 		var queuedSong = that.getQueuedSongById(songQueueId);
-		
+
 		if(!queuedSong){
 			console.log('Queued song with id ['+songQueueId+'] not found');
 			return;
