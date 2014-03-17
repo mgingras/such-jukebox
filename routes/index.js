@@ -22,6 +22,7 @@ exports.joining = function(req,res){
 }
 
 exports.party = function(req,res){
+    console.log("HERE");
     var id = req.params.id;
     var hostPassword = req.body.hostPassword;
 
@@ -72,7 +73,9 @@ exports.hostParty = function(req,res){
 exports.createParty = function(req,res){
     var party = new Party(req.body);
     database.addParty(party);
-    req.session.isHost = true;
+    party.hostPassword = 'root'
+    req.session.host = {};
+    req.session.host[party.id] = true;
     res.send({partyId: party.id});
 }
 

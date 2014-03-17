@@ -11,7 +11,7 @@ var party1 = new Party({
 		latitude: 45.4372639,
 		longitude: -75.5202383
 	}),
-	hostPassword: 't'
+	hostPassword: 'root'
 });
 var party2 = new Party({
     name: 'Martin\'s Party',
@@ -20,7 +20,7 @@ var party2 = new Party({
         latitude: 25.4372639,
         longitude: -75.5202383
     }),
-    hostPassword: 'p'
+    hostPassword: 'root'
 });
 
 var s1 = new objects.SongInQueue({
