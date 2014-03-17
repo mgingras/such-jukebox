@@ -1,15 +1,6 @@
 extends layout
 
 block content
-  script(src="/js/player.js")
-  script(type="text/javascript").
-    $(function(){
-        player = new Player(!{JSON.stringify(isHost)});
-        console.log(!{JSON.stringify(party)});
-        player.initializeFromParty(!{JSON.stringify(party)});
-
-        player.resizeQueue();
-    });
   .site-wrapper
       .site-wrapper-inner
           .cover-container
@@ -45,7 +36,7 @@ block content
                         a.host-only(id="next-song-btn", class="btn btn-info btn-lg player-btn")
                             span(class="glyphicon glyphicon-forward")
                         a.guest-only(id="vote-skip-song-btn", class="btn btn-info btn-lg player-btn")
-                            span(class="glyphicon glyphicon-forward")
+                            span(class="glyphicon glyphicon-step-forward")
                             |Skip
                       .song-info
                           .song-icon(id="current-song-icon")
@@ -63,3 +54,13 @@ block content
                         .fa.fa-search
                   ul.list-group.queue(style="height:100%;", id="searchResultList")
                     ul.list-group()
+
+  script.
+    $(function(){
+        player = new Player(!{JSON.stringify(isHost)});
+        console.log(!{JSON.stringify(party)});
+        player.initializeFromParty(!{JSON.stringify(party)});
+
+        player.resizeQueue();
+    });
+  script(src="/js/player.js")

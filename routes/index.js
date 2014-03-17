@@ -72,7 +72,8 @@ exports.hostParty = function(req,res){
 exports.createParty = function(req,res){
     var party = new Party(req.body);
     database.addParty(party);
-    console.dir(req.body);
+    req.session.isHost = true;
+    res.send({partyId: party.id});
 }
 
 exports.becomeGuest = function(req, res) {

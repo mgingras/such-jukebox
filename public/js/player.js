@@ -1,4 +1,5 @@
-Player = function(isHost) {
+(function() {
+  Player = function(isHost) {
   var that = this;
   var queuedSongs = [];
   var playedSongs = [];
@@ -463,3 +464,4 @@ var updateTimer = setInterval(receiveUpdatedParty,5000);
 
    this.resizeSearch();
  }
+}).call(this);
