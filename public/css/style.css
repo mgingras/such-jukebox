@@ -191,10 +191,8 @@ p.inline{
   padding-right:-5px;
 }
 #search{
-  /*border:#DDDDDD 1px solid;*/
+  border:#DDDDDD 1px solid;
   z-index:10;
-  bottom:0;
-  margin-top:17px;
 }
 .popover{
   background-color:#111111;
@@ -336,7 +334,7 @@ body {
  */
 @media (max-width: 767px) {
   #search{
-    margin-top:22px;
+    /*margin-top:22px;*/
   }
   .player-controls {
     font-size:80%;
@@ -381,17 +379,6 @@ body {
   }
   .song-info{
     margin-top:0px;
-  }
-}
-@media (max-width: 363px) {
-  #search{
-    margin-top:39px;
-  }
-
-}
-@media (max-width: 279px) {
-  #search{
-    margin-top:55.5px;
   }
 }
 
