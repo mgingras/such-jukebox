@@ -26,10 +26,10 @@
     if(party.currentSong){
       currentSong = party.currentSong;
       resetPlayerWithCurrentSong();
-      updateUIState();
     }
+      updateUIState();
+      that.addSongsToQueue(party.queuedSongs);
 
-    that.addSongsToQueue(party.queuedSongs);
   }
 
   this.addSongToQueue = function(song) {
@@ -214,7 +214,6 @@
     if(votedForSongs[song.id]) {
       voteDisabled = 'disabled';
     }
-    if(!isHost)
     var html = '<li class="list-group-item queued-song-item" id="queued-song_'+song.id+'" data-song-queue-id="'+song.id+'">'+
     '<div class="song-info-list">'+
     '<div class="song-icon song-icon-list" style="background-image: url('+song.song.imageUrl+')"></div>'+
@@ -222,12 +221,15 @@
     '<p>'+song.song.title+'</p>'+
     '<p>'+song.song.artist+'</p>'+
     '</div>'+
-    '<div class="queue-list-votes">'+
-    '<div class="song-votes-controls">'+
-    '<a onclick="javascript: player.voteSong('+song.id+', false)" class="btn btn btn-success btn-xs vote-song-up-btn '+voteDisabled+'" style="margin-bottom: 2px;"><span class="fa fa-thumbs-up"></span></a><br />'+
-    '<a onclick="javascript: player.voteSong('+song.id+', true)" class="btn btn btn-danger btn-xs vote-song-down-btn '+voteDisabled+'"><span class="fa fa-thumbs-down"></span></a>'+
-    '</div>'+
-    '<a class="btn btn btn-default '+buttonType+' btn-lg disabled song-votes-count"><span class="fa fa-thumbs-'+upOrDown+'">'+song.ratioOfUpsToSkips+'</span></a>'+
+    '<div class="queue-list-votes">';
+
+    if(!isHost){
+      html += '<div class="song-votes-controls">'+
+      '<a onclick="javascript: player.voteSong('+song.id+', false)" class="btn btn btn-success btn-xs vote-song-up-btn '+voteDisabled+'" style="margin-bottom: 2px;"><span class="fa fa-thumbs-up"></span></a><br />'+
+      '<a onclick="javascript: player.voteSong('+song.id+', true)" class="btn btn btn-danger btn-xs vote-song-down-btn '+voteDisabled+'"><span class="fa fa-thumbs-down"></span></a>' +
+      '</div>';
+    }
+    html += '<a class="btn btn btn-default '+buttonType+' btn-lg disabled song-votes-count"><span class="fa fa-thumbs-'+upOrDown+'">'+song.ratioOfUpsToSkips+'</span></a>'+
     '</div>'+
     '</div>'+
     '</li>';
