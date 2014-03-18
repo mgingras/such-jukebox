@@ -71,7 +71,6 @@
   }
   this.disableVotedFor = function(votes){
     if(!isHost){
-      console.log("HERE");
       var voted = votes.votedFor;
       var votesToSkip = votes.votedToSkip;
 
