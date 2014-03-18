@@ -1,4 +1,11 @@
 (function() {
+  SC.initialize({
+    client_id: '37b3e407ce25c7ef03fe4ff665e40961'
+  });
+
+  
+
+
   Player = function(isHost) {
   var that = this;
   var queuedSongs = [];
@@ -8,32 +15,28 @@
   var isPlaying;
   var partyId;
   var votedForSongs = {};
+  var songCache = {};
 
   if( ! isHost ) {
     $('.host-only').hide();
-    $('#player').remove();
     $('#next-song-btn').append('Skip');
   } else {
     $('.guest-only').hide();
   }
-
-  //TODO REMOVE
-
 
 
   this.initializeFromParty = function(party) {
     partyId = party.id;
     playedSongs = party.playedSongs;
     if(party.currentSong){
-      currentSong = party.currentSong;
-      resetPlayerWithCurrentSong();
-      updateUIState();
+      handleChangeToSong(party.currentSong);
     }
 
     that.addSongsToQueue(party.queuedSongs);
   }
 
   this.addSongToQueue = function(song) {
+    populateSoundCloudInfoToQueuedSong(song, updateSongInfoUIForQueuedSong);
     if(!currentSong) {
       handleChangeToSong(song);
       return;
@@ -80,18 +83,54 @@
     currentSong = newSong;
     currentSongPercentDone = 0;
 
-    resetPlayerWithCurrentSong();
+    
+    populateSoundCloudInfoToQueuedSong(newSong, updateCurrentSongUI);
+
+    if(isHost) {
+      SC.stream("/tracks/"+newSong.song.trackid, function(sound){
+        newSong.sound = sound;
+        handlePlayPause();
+      });
+    }
+
 
     updateUIState();
     updateSongProgressUI();
   }
 
-  function resetPlayerWithCurrentSong() {
-    $('#player').empty();
-    $('#player').append('<source src="'+currentSong.song.fileLocation+'" type="audio/mp3">');
+  function populateSoundCloudInfoToQueuedSong(queuedSong, callback) {
+    if(queuedSong.didGetSoundCloudInfo)
+      return;
+
+    SC.get("/tracks/"+queuedSong.song.trackid, function(track){
+      console.log(track);
+      queuedSong.song.title=track.title;
+      queuedSong.song.artist=track.user.username;
+      queuedSong.song.imageUrl=track.artwork_url;
+      queuedSong.didGetSoundCloudInfo = true;
+
+
+      songCache[queuedSong.song.trackid] = queuedSong.song;
+
+      if(callback)
+        callback(queuedSong);
+    });
+  }
+
+  function handlePlayPause() {
+    if( !isHost || !currentSong.sound )
+      return;
+
     if(isPlaying) {
-      $('#player').get(0).play();
+      currentSong.sound.play({
+        whileplaying: function(){
+          that.updateTimeOfCurrentSong(this.position, this.duration);
+        }
+      });
+    } else{
+      currentSong.sound.pause();
     }
+
   }
 
   function informServerOfSongChange(oldSong, newSong) {
@@ -125,7 +164,7 @@
     $('#pause-btn').show();
     $('#current-song-progress').addClass('active');
     isPlaying = true;
-    $('#player').get(0).play();
+    handlePlayPause();
   }
 
   function handlePause() {
@@ -135,8 +174,8 @@
     $('#play-btn').show();
     $('#pause-btn').hide();
     $('#current-song-progress').removeClass('active');
-    $('#player').get(0).pause();
     isPlaying = false;
+    handlePlayPause();
   }
 
   this.getQueuedSongById = function(songQueueId) {
@@ -198,13 +237,13 @@
     if(votedForSongs[song.id]) {
       voteDisabled = 'disabled';
     }
-    if(!isHost)
+
     var html = '<li class="list-group-item queued-song-item" id="queued-song_'+song.id+'" data-song-queue-id="'+song.id+'">'+
     '<div class="song-info-list">'+
-    '<div class="song-icon song-icon-list" style="background-image: url('+song.song.imageUrl+')"></div>'+
+    '<div class="song-icon song-icon-list" id="queued-song_'+song.id+'_image" style="background-image: url('+song.song.imageUrl+')"></div>'+
     '<div class="song-details song-details-list">'+
-    '<p>'+song.song.title+'</p>'+
-    '<p>'+song.song.artist+'</p>'+
+    '<p id="queued-song_'+song.id+'_title">'+song.song.title+'</p>'+
+    '<p id="queued-song_'+song.id+'_artist">'+song.song.artist+'</p>'+
     '</div>'+
     '<div class="queue-list-votes">'+
     '<div class="song-votes-controls">'+
@@ -216,6 +255,12 @@
     '</div>'+
     '</li>';
     return html;
+  }
+
+  function updateSongInfoUIForQueuedSong(queuedSong) {
+    $('#queued-song_'+queuedSong.id+'_title').text(queuedSong.song.title);
+    $('#queued-song_'+queuedSong.id+'_artist').text(queuedSong.song.artist);
+    $('#queued-song_'+queuedSong.id+'_image').css({'background-image': 'url('+queuedSong.song.imageUrl+')'});
   }
 
   function updateSongProgressUI() {
@@ -238,11 +283,14 @@
 }
 
 this.updateTimeOfCurrentSong = function(currentTime, duration){
+  if(currentTime === undefined || duration === undefined)
+    return;
+
   currentSongPercentDone = currentTime/duration*100;
 
   if(currentSongPercentDone >= 100) {
-   that.nextSong();
- }
+    that.nextSong();
+  }
 
  updateSongProgressUI();
 }
@@ -379,31 +427,40 @@ function searchForSongs(query) {
 
   function handleNewPartyState(party) {
     if(!isHost && party.currentSong) {
-     var newCurrentSong = that.getQueuedSongById(party.currentSong.id);
-     if(newCurrentSong) {
-      currentSong = newCurrentSong;
+       var newCurrentSong = that.getQueuedSongById(party.currentSong.id);
+       if(newCurrentSong) {
+        currentSong = newCurrentSong;
+      }
+    }
+
+    queuedSongs = party.queuedSongs;
+    playedSongs = party.playedSongs;
+
+    for(var i in queuedSongs) {
+      var qs = queuedSongs[i];
+      var cachedSong = songCache[queuedSongs.song.trackid];
+      if(cachedSong){
+        qs.song = cachedSong;
+        qs.didGetSoundCloudInfo = true;
+      }
+    }
+
+    if(party.currentSong !== undefined && party.currentSong.id !== currentSong.id && getQueuedSongById(party.currentSong.id) !== undefined) {
+      handleChangeToSong(party.currentSong);
+    } else if(party.currentSong !== undefined) {
+      currentSong.numVotesToSkip = party.currentSong.numVotesToSkip;
+    }
+
+   if(isHost) {
+    if(currentSong){
+       if(currentSong.numVotesToSkip > 3) {
+        that.nextSong();
+      }
     }
   }
 
-  queuedSongs = party.queuedSongs;
-  playedSongs = party.playedSongs;
-
-  if(party.currentSong !== undefined && party.currentSong.id !== currentSong.id && getQueuedSongById(party.currentSong.id) !== undefined) {
-   handleChangeToSong(party.currentSong);
- } else if(party.currentSong !== undefined) {
-   currentSong.numVotesToSkip = party.currentSong.numVotesToSkip;
- }
-
- if(isHost) {
-  if(currentSong){
-     if(currentSong.numVotesToSkip > 3) {
-      that.nextSong();
-    }
+  updateUIState();
   }
-}
-
-updateUIState();
-}
 
 
 var updateTimer = setInterval(receiveUpdatedParty,5000);

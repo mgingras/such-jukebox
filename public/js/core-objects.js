@@ -7,6 +7,7 @@ Song = function(params) {
 	this.imageUrl = params.imageUrl;
 	this.fileLocation = params.fileLocation;
 	this.genre = params.genre;
+	this.trackid = params.trackid;
 }
 
 SongInQueue = function(params) {
