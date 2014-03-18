@@ -79,11 +79,13 @@
           votedForSongs[i] = true;
         }
       }
-      if(votesToSkip[currentSong.id] != null){
+      if(currentSong == null){
         $('#vote-skip-song-btn').addClass('disabled');
       }
-      console.dir(votes);
-      console.dir(currentSong);
+      else if(votesToSkip[currentSong.id] != null){
+        currentSong.userVotedToSkip = true;
+        $('#vote-skip-song-btn').addClass('disabled');
+      }
     }
   }
 
