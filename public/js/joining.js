@@ -3,7 +3,7 @@
   var google_api_key = 'AIzaSyCGqplXIkBDqyyUeGqRssGLVGl6X84ghqU';
 
 
-  $(document).on('click touchstart touchend', '.party', function(){
+  $(document).on('click', '.party', function(){
     if(selectedParty){
       $(selectedParty).removeClass('active');
     }

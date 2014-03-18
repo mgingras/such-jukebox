@@ -204,6 +204,9 @@ p.inline{
   overflow:auto;
   max-height:190px;
 }
+.party{
+  cursor: pointer;
+}
 
 /*
  * Base structure
