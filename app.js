@@ -8,6 +8,7 @@ var routes = require('./routes');
 var http = require('http');
 var path = require('path');
 var fs = require('fs');
+var newrelic = require('newrelic');
 var app = express();
 var database = require('./database');
 var testPopulator = require('./test-db-populator');

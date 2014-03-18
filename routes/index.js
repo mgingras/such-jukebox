@@ -241,9 +241,10 @@ exports.findParty = function(req, res) {
     l = new Levenshtein(req.query.partyName, parties[key].name);
     console.log(parties[key].name + ": " + l.distance);
     if(l <= 8){
-        partyNames.push({name: parties[key].name, id: parties[key].id});
+        partyNames.push({name: parties[key].name, id: parties[key].id, similarity: l.distance});
     }
   }
+  partyNames.sort(function(a,b) { return (a.similarity - b.similarity) });
   res.send(partyNames);
 }
 
