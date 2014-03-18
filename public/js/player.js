@@ -69,13 +69,23 @@
     handleChangeToSong(song);
 
   }
-  this.disableVotedFor = function(voted){
-    for (var i = 0; i < voted.length; i++) {
-      if(voted[i] != null){
-        votedForSongs[i] = true;
+  this.disableVotedFor = function(votes){
+    if(!isHost){
+      console.log("HERE");
+      var voted = votes.votedFor;
+      var votesToSkip = votes.votedToSkip;
+
+      for (var i = 0; i < voted.length; i++) {
+        if(voted[i] != null){
+          votedForSongs[i] = true;
+        }
       }
+      if(votesToSkip[currentSong.id] != null){
+        $('#vote-skip-song-btn').addClass('disabled');
+      }
+      console.dir(votes);
+      console.dir(currentSong);
     }
-    console.dir(voted);
   }
 
   function handleChangeToSong(newSong) {
@@ -340,6 +350,9 @@ function searchForSongs(query) {
    */
 
    function handleVoteSkip() {
+    if(currentSong.userVotedToSkip == true){
+      return;
+    }
     if(!currentSong)
      return;
 

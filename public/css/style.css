@@ -190,6 +190,12 @@ p.inline{
   z-index:10;
   margin-top:22px;
 }
+.popover{
+  background-color:#111111;
+}
+.popover.bottom>.arrow:after{
+  border-bottom-color:#111111;
+}
 
 /*
  * Base structure

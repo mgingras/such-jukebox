@@ -63,8 +63,8 @@ block content
     $(function(){
         player = new Player(!{JSON.stringify(isHost)});
         console.log(!{JSON.stringify(party)});
-        player.disableVotedFor(!{JSON.stringify(votedFor)});
         player.initializeFromParty(!{JSON.stringify(party)});
+        player.disableVotedFor(!{JSON.stringify(votes)});
         player.resizeQueue();
     });
   script(src="/js/player.js")

@@ -49,16 +49,23 @@ exports.party = function(req,res){
         req.session.host[id] = true;
         isHost = true;
     }
-    var votedFor = []
+    var votedFor = [];
     if(req.session.partyVotes){
       if(req.session.partyVotes[id]){
         votedFor = req.session.partyVotes[id];
       }
     }
+    var voteToSkip = [];
+    if(req.session.voteToSkip){
+        if(req.session.voteToSkip[id]){
+            voteToSkip = req.session.voteToSkip[id];
+        }
+    }
+    var votes = {votedFor: votedFor, votedToSkip: voteToSkip};
     res.render('party', {
     	title: 'Such Jukebox!',
     	party: party,
-        votedFor: votedFor,
+        votes: votes,
     	isHost: isHost
     });
 }
@@ -140,7 +147,7 @@ exports.partyVoteSong = function(req,res){
     else {
         party.voteForSong(songQueueId);
     }
-    req.session.partyVotes[id][songQueueId] = 'voted';
+    req.session.partyVotes[id][songQueueId] = true;
     res.send({});
 }
 
@@ -209,11 +216,20 @@ exports.voteToSkipCurrentSong = function(req, res) {
         res.send({error: 'You need to provide a song queue id'});
         return;
     }
+    if(!req.session.voteToSkip){
+        req.session.voteToSkip = [];
+    }
+    if(!req.session.voteToSkip[id]){
+      req.session.voteToSkip[id] = [];
+    }
+    if(req.session.voteToSkip[id][songQueueId]){
+        res.send({error: 'Already voted to skip this song!'});
+    }
 
     if(party.currentSong !== undefined && ''+party.currentSong.id === songQueueId) {
         party.currentSong.voteToSkip();
+        req.session.voteToSkip[id][songQueueId] = true;
     }
-
     res.send({party: party});
 }
 
