@@ -42,7 +42,7 @@
   $('#search').on('click', function(){
     var name = $('#partyName').val();
     if(name.length > 0){
-      $('#name-label').css('visibility', 'hidden');
+      $('#name-label').css('display', 'none');
       $('#name-group').removeClass('has-error');
       $('#search').css('border', '#DDDDDD 1px solid');
       $.get('/party/search', {partyName: name}, function(parties){
@@ -51,7 +51,7 @@
       });
     }
     else{
-      $('#name-label').css('visibility', 'visible');
+      $('#name-label').css('display', 'block');
       $('#name-group').addClass('has-error');
       $('#search').css('border', '#a94442 1px solid');
     }
