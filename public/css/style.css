@@ -186,9 +186,10 @@ p.inline{
   padding-right:-5px;
 }
 #search{
-  border:#DDDDDD 1px solid;
+  /*border:#DDDDDD 1px solid;*/
   z-index:10;
-  margin-top:22px;
+  bottom:0;
+  margin-top:17px;
 }
 .popover{
   background-color:#111111;
@@ -328,8 +329,23 @@ body {
 /*
  * Affix and center
  */
+@media (max-width: 767px) {
+  #search{
+    margin-top:22px;
+  }
+}
+@media (max-width: 363px) {
+  #search{
+    margin-top:39px;
+  }
+}
+@media (max-width: 279px) {
+  #search{
+    margin-top:55.5px;
+  }
+}
 
-@media (min-width: 768px) {
+@media (min-width: 767px) {
   /* Start the vertical centering */
   .site-wrapper-inner {
   }
@@ -338,7 +354,7 @@ body {
   .mastfoot,
   .cover-container {
     width: 100%; /* Must be percentage or pixels for horizontal alignment */
-  }
+
 }
 
 @media (min-width: 992px) {
