@@ -41,24 +41,27 @@ a {
 }
 
 .song-info{
+  height:50px;
   display: inline-block;
-  margin-left: 20px;
+  margin-left: 10px;
   vertical-align: middle;
   margin-top: 9px;
   text-align: left;
-  max-width: 60%
+  width:1000px;
+  max-width: 64%;
 }
 
 .song-info-list{
   overflow: hidden;
 }
 
-.song-icon{
+.song-icon {
   display: inline-block;
   height: 50px;
   width: 50px;
   background-image: url(https://pbs.twimg.com/profile_images/2867464382/831afcdb38903ecc80f2cef099136878.png);
   background-size: 50px;
+  float:left;
 }
 
 .song-icon-list{
@@ -68,7 +71,8 @@ a {
 .song-details{
   display: inline-block;
   margin-left: 5px;
-  max-width: 100%;
+  max-width: 60%;
+  float:left;
 }
 
 .song-details-list{
@@ -92,7 +96,7 @@ p.now-playing{
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  max-width: inherit;
+  margin-bottom:5px;
 }
 .home{
   margin:-10px;
@@ -161,12 +165,13 @@ p.inline{
 }
 
 .player-btns{
-
+  height:52px;
 }
+
 
 #song-votes-to-skip{
   position: absolute;
-  margin-bottom:10px;
+  margin-bottom:9px;
   bottom: 0;
   right: 0;
 }
@@ -333,11 +338,56 @@ body {
   #search{
     margin-top:22px;
   }
+  .player-controls {
+    font-size:80%;
+  }
+  .btn-sm {
+    font-size:70%;
+    height:auto;
+    width:auto;
+  }
+  .queue-list-votes{
+    margin-top:-40px;
+  }
+  .song-votes-controls {
+    margin-top:-5px;
+  }
+  .song-votes-count {
+    font-size:100%;
+  }
+  div.queue-list-votes > .btn-lg {
+    padding-left:3px;
+    padding-right:3px;
+    padding-top:10px;
+    padding-bottom:10px;
+    margin-left:40px;
+    width:40px;
+  }
+  .queued-song-item {
+    font-size:80%;
+  }
+  #invite-others-btn{
+    margin-right:0px;
+  }
+  .inner{
+    padding-top:5px;
+    padding-bottom:0px;
+  }
+  .mastfoot p{
+    margin-top:10px;
+  }
+  #next-song-btn{
+    margin-left:2px;
+  }
+  .song-info{
+    margin-top:0px;
+  }
 }
 @media (max-width: 363px) {
   #search{
     margin-top:39px;
   }
+
 }
 @media (max-width: 279px) {
   #search{
