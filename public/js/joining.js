@@ -2,7 +2,8 @@
   var selectedParty = null;
   var google_api_key = 'AIzaSyCGqplXIkBDqyyUeGqRssGLVGl6X84ghqU';
 
-  $(document).on('click', '.party', function(){
+
+  $(document).on('click touchstart touchend', '.party', function(){
     if(selectedParty){
       $(selectedParty).removeClass('active');
     }
