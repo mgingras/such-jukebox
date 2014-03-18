@@ -1,6 +1,7 @@
-var objects = require('../public/js/core-objects')
+var objects = require('../public/js/core-objects');
 var database = require('../database');
 var Levenshtein = require('levenshtein');
+var Distance = require('geo-distance-safe');
 /*
  * GET home page.
  */
@@ -48,10 +49,16 @@ exports.party = function(req,res){
         req.session.host[id] = true;
         isHost = true;
     }
-
+    var votedFor = []
+    if(req.session.partyVotes){
+      if(req.session.partyVotes[id]){
+        votedFor = req.session.partyVotes[id];
+      }
+    }
     res.render('party', {
     	title: 'Such Jukebox!',
     	party: party,
+        votedFor: votedFor,
     	isHost: isHost
     });
 }
@@ -100,6 +107,10 @@ exports.becomeGuest = function(req, res) {
 
 
 exports.partyVoteSong = function(req,res){
+    if(req.session.partyVotes == null){
+        //Array to track parties visited
+        req.session.partyVotes = [];
+    }
     var id = req.params.id;
     var isVoteDown = req.body.isVoteDown;
     var songQueueId = req.body.songQueueId;
@@ -110,16 +121,26 @@ exports.partyVoteSong = function(req,res){
     }
 
     if( ! songQueueId ) {
-    	res.send({error: 'You need to give a songQueueId'});
+        res.send({error: 'You need to give a songQueueId'});
         return;
     }
 
-    if(isVoteDown === true || isVoteDown === 'true') {
-    	party.voteForSong(songQueueId, true);
-    } else {
-		party.voteForSong(songQueueId);
+    if(req.session.partyVotes[id] == null){
+        //Array to track songs voted for
+        req.session.partyVotes[id] = [];
     }
 
+    if(req.session.partyVotes[id][songQueueId]){
+        res.send({error: 'You already voted!'});
+        return;
+    }
+    if(isVoteDown === true || isVoteDown === 'true') {
+        party.voteForSong(songQueueId, true);
+    }
+    else {
+        party.voteForSong(songQueueId);
+    }
+    req.session.partyVotes[id][songQueueId] = 'voted';
     res.send({});
 }
 
@@ -203,10 +224,26 @@ exports.findParty = function(req, res) {
   for(var key in parties){
     l = new Levenshtein(req.query.partyName, parties[key].name);
     console.log(parties[key].name + ": " + l.distance);
-    if(l <= 8)
+    if(l <= 8){
         partyNames.push({name: parties[key].name, id: parties[key].id});
+    }
   }
   res.send(partyNames);
-  // console.dir(partyNames);
-  // console.dir(req.query);
+}
+
+exports.nearbyParties = function(req, res){
+  var parties = database.getParties();
+  var partyNames = []; // [];
+  var d = null;
+  for(var key in parties){
+    d = Distance.between(req.query.location, parties[key].location).human_readable();
+    console.log(parties[key].name + ": " + d.distance);
+    if(d.distance <= 25){
+        partyNames.push({name: parties[key].name, id: parties[key].id, distance: d.distance});
+    }
+
+    partyNames.sort(function(a,b) { return (a.distance - b.distance) });
+  }
+
+  res.send(partyNames);
 }

@@ -39,6 +39,7 @@ app.get('/', routes.index);
 app.get('/hosting', routes.hosting);
 app.get('/joining', routes.joining);
 app.get('/party/search', routes.findParty);
+app.get('/party/nearby', routes.nearbyParties);
 app.get('/party/:id', routes.party);
 app.post('/party/:id', routes.party);
 app.get('/party/:id/host', routes.hostParty);

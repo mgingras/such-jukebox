@@ -20,7 +20,6 @@
   //TODO REMOVE
 
 
-
   this.initializeFromParty = function(party) {
     partyId = party.id;
     playedSongs = party.playedSongs;
@@ -69,6 +68,14 @@
 
     handleChangeToSong(song);
 
+  }
+  this.disableVotedFor = function(voted){
+    for (var i = 0; i < voted.length; i++) {
+      if(voted[i] != null){
+        votedForSongs[i] = true;
+      }
+    }
+    console.dir(voted);
   }
 
   function handleChangeToSong(newSong) {
@@ -270,11 +277,6 @@ this.voteSong = function(songQueueId, isVoteDown) {
 $('#queued-song_'+songQueueId).find('.vote-song-up-btn').addClass('disabled');
 $('#queued-song_'+songQueueId).find('.vote-song-down-btn').addClass('disabled');
 
-if(isVoteDown) {
-  song.ratioOfUpsToSkips--;
-} else{
-  song.ratioOfUpsToSkips++;
-}
 
 votedForSongs[songQueueId] = true;
 
@@ -285,17 +287,20 @@ queuedSongs.sort(function(a,b){
  return ratioB-ratioA;
 });
 
-updatePendingQueueUI();
-
-
-$.ajax({
-  type: 'POST',
-  url: "/party/"+partyId+"/voteSong",
-  data: {songQueueId: songQueueId, isVoteDown: isVoteDown === true},
-  success: function( data ) {
-  },
-  async:true
-});
+$.post(
+  "/party/"+partyId+"/voteSong",
+  {songQueueId: songQueueId, isVoteDown: isVoteDown === true},
+  function(data){
+    if(!data.error){
+      if(isVoteDown) {
+        song.ratioOfUpsToSkips--;
+      }
+      else{
+        song.ratioOfUpsToSkips++;
+      }
+    }
+    updatePendingQueueUI();
+  });
 }
 
 function getSongQueueIdFromSongQueueListItemElement(element) {

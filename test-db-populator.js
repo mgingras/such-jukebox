@@ -8,8 +8,8 @@ var party1 = new Party({
 	name: 'John\'s Party',
 	genreId: 1,
 	location: new objects.Location({
-		latitude: 45.4372639,
-		longitude: -75.5202383
+        lat: 45.4372639,
+        lon: -75.5202383
 	}),
 	hostPassword: 'root'
 });
@@ -17,8 +17,8 @@ var party2 = new Party({
     name: 'Martin\'s Party',
     genreId: 2,
     location: new objects.Location({
-        latitude: 25.4372639,
-        longitude: -75.5202383
+        lat: 45.4362639,
+        lon: -75.5302383
     }),
     hostPassword: 'root'
 });

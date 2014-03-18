@@ -1,6 +1,10 @@
 (function() {
   $('#location').bootstrapSwitch('state'); // whether to use locaiton
   var partyLocation = null;
+  var google_api_key = 'AIzaSyCGqplXIkBDqyyUeGqRssGLVGl6X84ghqU';
+  var map = null;
+  var marker = null;
+
 
   $('#location').on('switchChange', function(e, data) {
     if(data.value){
@@ -8,6 +12,8 @@
     }
     else{
       partyLocation = null;
+      $('#map').css('display','none');
+
     }
   });
 
@@ -65,8 +71,37 @@
       navigator.geolocation.getCurrentPosition(function(position){
         partyLocation = {
           lat: position.coords.latitude,
-          lng: position.coords.longitude
+          lon: position.coords.longitude
         }
+        var latLng = new google.maps.LatLng(partyLocation.lat, partyLocation.lon);
+        if(map === null){
+          var mapOptions = {
+              center: latLng,
+              disableDefaultUI: true,
+              zoom: 16
+          };
+          map = new google.maps.Map(document.getElementById("map-canvas"),
+            mapOptions);
+        }
+
+        var contentString = '<div><p class="lead" style="color:black;margin:0px;">'+
+        'Your Location</p></div>';
+
+        var infowindow = new google.maps.InfoWindow({
+          content: contentString
+        });
+        marker = new google.maps.Marker({
+          icon: '/img/marker.png',
+          position: latLng,
+          map: map,
+          title: 'Your Location'
+        });
+        google.maps.event.addListener(marker, 'click', function() {
+            infowindow.open(map,marker);
+        });
+
+        $('#map').css('display','block');
+
         console.dir(partyLocation);
       });
       }

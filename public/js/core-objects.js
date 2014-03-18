@@ -48,8 +48,8 @@ Genre = function(params) {
 }
 
 Location = function(params) {
-	this.latitude = params.latitude;
-	this.longitude = params.longitude;
+	this.lat = params.lat;
+	this.lon = params.lon;
 }
 
 Party = function(params) {

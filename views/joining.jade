@@ -18,11 +18,6 @@ block content
                     Enter the name of the party to search for or select a nearby party from the list
               .row
                 .col-sm-offset-4.col-sm-5
-                  //- .input-group
-                  //-   input#partyName.form-control(type="text", placeholder="Party's Name")
-                  //-   span.input-group-btn
-                  //-     button#search.btn.btn-default(type="button")
-                  //-       .fa.fa-search
                   #name-group.form-group
                     .input-group
                       label#name-label.control-label.pull-left(for="partyName", style="visibility:hidden;") Enter party to search for
@@ -42,7 +37,7 @@ block content
                       a.list-group-item.party(id="party_#{party.id}")= party.name
                   #warn.alert.alert-danger(style='padding:5px;display:none;') Please select a party
               .row
-                .col-sm-offset-6.col-sm-3
+                .col-sm-offset-5.col-sm-4
                   p.pull-right Your location:&nbsp;
                     span.location(style="color:#d9534f")
                       i.fa.fa-location-arrow(style='display:inline;')

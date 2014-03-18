@@ -19,12 +19,16 @@ block content
                   input#partyName.form-control(type="text", placeholder="Party Name")
                   #nameWarn.alert.alert-danger(style='padding:5px;display:none;') Please enter a party name
               .row
-                .col-sm-offset-3.col-sm-6
+                .col-sm-offset-3.col-sm-3(style='text-align:left;')
                   .input-group
-                    span Use my location: &nbsp;
+                    p Use my location:
                     //- http://www.bootstrap-switch.org/
-                    input#location.switch(type="checkbox",data-on-color="success", data-size="small")
+                    input#location.switch(type="checkbox",data-on-color="success", data-size="small", style='padding-top:5px;')
                     script $(".switch").bootstrapSwitch();
+                .col-sm-4#map(style='height:220px;min-width:220px;padding:0;margin:20px;display:none;')
+                  #map-canvas
+
+
               .row
                 .col-sm-offset-3.col-sm-6
                   h4.pull-left Fallback genre:
@@ -43,15 +47,6 @@ block content
                   .caption
                     p
                       | Songs from this genre will populate the playlist if there are no songs submitted by users
-
-                  //- .btn-group
-                    button.btn.btn-default.btn-sm.dropdown-toggle(type="button", data-toggle="dropdown") Fallback Genre
-                    ul.dropdown-menu(style="color:black;")
-                      li Top 40
-                      li Hip-hop
-                      li Rap
-                      li Pop
-
                 br
                 .col-sm-offset-2.col-sm-3(style="padding-bottom:10px;")
                   a.btn.btn-lg.btn-danger(href='/') Back
@@ -61,3 +56,4 @@ block content
               .inner
                 p(style="color:white;") Much fun to be had here
   script(src='/js/hosting.js')
+  script(src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGqplXIkBDqyyUeGqRssGLVGl6X84ghqU&sensor=false")

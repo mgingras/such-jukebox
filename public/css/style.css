@@ -1,8 +1,3 @@
-body {
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  min-height:630px;
-}
-
 a {
   color: #00B7FF;
 }
@@ -208,8 +203,9 @@ body {
 body {
   color: #fff;
   text-align: center;
-  text-shadow: 0 1px 3px rgba(0,0,0,.5);
-  box-shadow: inset 0 0 100px rgba(0,0,0,.5);
+  /*text-shadow: 0 1px 3px rgba(0,0,0,.5);*/
+  /*box-shadow: inset 0 0 100px rgba(0,0,0,.5);*/
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 /* Extra markup and styles for table-esque vertical and horizontal centering */
@@ -232,12 +228,18 @@ body {
   width:100%;
   position:relative;
 }
+#map-canvas {
+  height: 100%;
+  width: 100%;
+}
 
 /* Padding for spacing */
 .inner {
   padding: 30px;
 }
-
+.inner.cover {
+  height:70%;
+}
 
 /*
  * Header
@@ -304,7 +306,7 @@ body {
 .mastfoot {
   color: #999; /* IE8 proofing */
   color: rgba(255,255,255,.5);
-  position: absolute;
+  position: relative;
   bottom:0;
   text-align:center;
   width:100%;
@@ -318,10 +320,6 @@ body {
  */
 
 @media (min-width: 768px) {
-  .mastfoot {
-    position: absolute;
-    bottom: 0;
-  }
   /* Start the vertical centering */
   .site-wrapper-inner {
   }
