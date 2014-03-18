@@ -1,5 +1,5 @@
 a {
-  color: #00B7FF;
+  color: #32C3EE;
 }
 /*
  * Globals
@@ -195,6 +195,10 @@ p.inline{
 }
 .popover.bottom>.arrow:after{
   border-bottom-color:#111111;
+}
+#parties{
+  overflow:auto;
+  max-height:190px;
 }
 
 /*

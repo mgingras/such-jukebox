@@ -32,14 +32,14 @@ block content
                       span#song-votes-to-skip.label.label-default(style="margin-left: 6px;")
                           |0 Votes to Skip
                       .player-btns.inline-block
-                        a#play-btn.host-only(class="btn btn-info btn-lg player-btn")
-                            span(class="glyphicon glyphicon-play")
-                        a#pause-btn.host-only(class="btn btn-info btn-lg player-btn", style="display:none;")
-                            span(class="glyphicon glyphicon-pause")
-                        a#next-song-btn.host-only(class="btn btn-info btn-lg player-btn")
-                            span(class="glyphicon glyphicon-forward")
-                        a#vote-skip-song-btn.guest-only(class="btn btn-info btn-lg player-btn")
-                            span(class="glyphicon glyphicon-step-forward")
+                        a#play-btn.host-only.btn.btn-info.btn-lg.player-btn
+                            span.glyphicon.glyphicon-play
+                        a#pause-btn.host-only.btn.btn-warning.btn-lg.player-btn(style="display:none;")
+                            span.glyphicon.glyphicon-pause
+                        a#next-song-btn.host-only.btn.btn-info.btn-lg.player-btn
+                            span.glyphicon.glyphicon-step-forward
+                        a#vote-skip-song-btn.guest-only.btn.btn-info.btn-lg.player-btn
+                            span.glyphicon.glyphicon-step-forward
                           #voteToSkip.caption.guest-only
                             small vote to skip
                       .song-info

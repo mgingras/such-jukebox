@@ -31,7 +31,7 @@ block content
                 br
                 .col-sm-offset-3.col-sm-6
                   h3(style="text-align:left;")
-                    span#partyKeyword Popular Parties:
+                    span#partyKeyword Parties:
                   #parties.list-group(style='margin-bottom:10px;')
                     for party in parties
                       a.list-group-item.party(id="party_#{party.id}")= party.name
