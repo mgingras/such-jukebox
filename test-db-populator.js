@@ -5,7 +5,7 @@ var Party = objects.Party;
 
 var party1 = new Party({
 	name: 'John\'s Party',
-	genreId: 1,
+	genreId: 4,
 	location: new objects.Location({
 		latitude: 45.4372639,
 		longitude: -75.5202383

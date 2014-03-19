@@ -11,12 +11,16 @@
     }
   });
 
+  for(var genreId in Genres) {
+    var genreName = Genres[genreId];
+    $('#fallback').append('<option value="'+genreId+'">'+genreName+'</option>');
+  }
+
   $('#host').on('click', function(){
-    var fallbackGenre = $('#fallback').val()[0];
     var partyName = $('#partyName').val();
     var validName = partyName.length > 0;
-    var validGenre = fallbackGenre != null;
-    var genreID = undefined;
+    var genreID = $( "#fallback option:selected" ).val();
+    var validGenre = genreID != null && genreID != "";
 
     if(!validName){
       $('#nameWarn').css('display', 'block');
@@ -29,20 +33,6 @@
     }
     else{
       $('#fallbackWarn').css('display', 'none');
-      switch(fallbackGenre){
-        case('Top 40'):
-          genreID = 0;
-          break;
-        case('Hip-hop'):
-          genreID = 1;
-          break;
-        case('Rap'):
-          genreID = 2;
-          break;
-        case('Pop'):
-          genreID = 3;
-          break;
-      }
     }
     if(validName && validGenre){
       $.post('/hostParty', {name: partyName, genreId: genreID, location: partyLocation}, function(data){

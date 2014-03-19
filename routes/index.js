@@ -194,3 +194,31 @@ exports.voteToSkipCurrentSong = function(req, res) {
 
     res.send({party: party});
 }
+
+
+exports.queueSong = function(req,res) {
+    var id = req.params.id;
+    var party = database.getParty(id);
+    var trackid = req.body.trackid;
+
+    if( ! party ) {
+        res.send({error: 'Party does not exist'});
+        return;
+    }
+
+    if( ! trackid ) {
+        res.send({error: 'You must give a trackid'});
+        return;
+    }
+
+   var queuedSong = new objects.SongInQueue({
+        song: new objects.Song({
+            trackid: trackid
+        }),
+        ratioOfUpsToSkips: 0
+    });
+
+   party.addSongToQueue(queuedSong);
+
+    res.send({party: party});
+}

@@ -43,10 +43,52 @@ SongInQueue = function(params) {
 }
 
 
-Genre = function(params) {
-	this.name = params.name;
-	this.id = params.id;
+Genre = function(id) {
+	this.name = Genres[id];
+	this.id = id;
 }
+
+Genres = {
+	0: 'Alternative Rock',
+	1: 'Ambient',
+	2: 'Blues',
+	3: 'Classical',
+	4: 'Country',
+	5: 'Dance',
+	6: 'Deep House',
+	7: 'Disco',
+	8: 'Drum & Bass',
+	9: 'Dubstep',
+	10: 'Electro',
+	11: 'Electronic',
+	12: 'Folk',
+	13: 'Hardcore Techno',
+	14: 'Hip Hop',
+	15: 'House',
+	16: 'Indie Rock',
+	17: 'Jazz',
+	18: 'Latin',
+	19: 'Metal',
+	20: 'Minimal Techno',
+	21: 'Mixtape',
+	22: 'Piano',
+	23: 'Pop',
+	24: 'Progressive House',
+	25: 'Punk',
+	26: 'R&B',
+	27: 'Rap',
+	28: 'Reggae',
+	29: 'Rock',
+	30: 'Singer-Songwriter',
+	31: 'Soul',
+	32: 'Tech House',
+	33: 'Techno',
+	34: 'Trance',
+	35: 'Trap',
+	36: 'Trip Hop',
+	37: 'World'
+} 
+
 
 Location = function(params) {
 	this.latitude = params.latitude;
@@ -72,13 +114,15 @@ Party = function(params) {
 		return this.currID;
 	}
 
-
+	var currentQueuedSongId = 0;
 	this.addSongToQueue = function(song) {
 		if(!that.currentSong) {
 			that.currentSong = song;
 			return;
 		}
 
+		song.id=currentQueuedSongId;
+		currentQueuedSongId++;
 		if(that.queuedSongs.length == 0){
 			that.queuedSongs.push(song);
 		} else{
@@ -144,7 +188,7 @@ Party = function(params) {
 
 	function getQueuedSongIndexById(songQueueId) {
 		for(var i in that.queuedSongs) {
-			if(''+that.queuedSongs[i].id === ''+songQueueId) {
+			if(that.queuedSongs[i].id == songQueueId) {
 				return i;
 			}
 		}
@@ -174,6 +218,39 @@ Party = function(params) {
 		}
 	}
 
+	function isTrackAlreadyQueued(trackid) {
+		for(var i in that.queuedSongs) {
+			var qs = that.queuedSongs[i];
+			if(qs.song.trackid == trackid) {
+				return true;
+			}
+		}
+
+		if(that.currentSong && trackid == that.currentSong.song.trackid)
+			return true;
+		return false;
+	}
+	this.isTrackAlreadyQueued = isTrackAlreadyQueued;
+
+	function isTrackAlreadyPlayed(trackid) {
+		for(var i in that.playedSongs) {
+			var qs = that.playedSongs[i];
+			if(qs.song.trackid == trackid) {
+				return true;
+			}
+			return false;
+		}
+	}
+	this.isTrackAlreadyPlayed = isTrackAlreadyPlayed;
+
+	this.isTrackAlreadyPlayedOrQueued = function(trackid){
+		var isQueued = that.isTrackAlreadyQueued(trackid);
+		if(isQueued)
+			return true;
+
+		return that.isTrackAlreadyPlayed(trackid);
+	}
+
 }
 
 if(typeof module !== 'undefined') {
@@ -182,4 +259,5 @@ if(typeof module !== 'undefined') {
 	module.exports.Party = Party;
 	module.exports.Genre = Genre;
 	module.exports.Location = Location;
+	module.exports.Genres = Genres;
 }
