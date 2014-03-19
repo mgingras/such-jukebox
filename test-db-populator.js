@@ -91,7 +91,7 @@ var s1 = new objects.SongInQueue({
         id: 1,
         ratioOfUpsToSkips: 10
     });
-var johnsSongs = [s1, s2, s3, s4, s5, s6, s7, s8];
+var johnsSongs = [s1];
 var martinsSongs = [s9,s10];
 party1.addSongsToQueue(johnsSongs);
 party2.addSongsToQueue(martinsSongs);

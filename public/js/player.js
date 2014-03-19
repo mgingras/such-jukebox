@@ -394,14 +394,20 @@ queuedSongs.sort(function(a,b){
 updatePendingQueueUI();
 
 
-$.ajax({
-  type: 'POST',
-  url: "/party/"+partyId+"/voteSong",
-  data: {songQueueId: songQueueId, isVoteDown: isVoteDown === true},
-  success: function( data ) {
-  },
-  async:true
-});
+$.post(
+  "/party/"+partyId+"/voteSong",
+  {songQueueId: songQueueId, isVoteDown: isVoteDown === true},
+  function(data){
+    if(!data.error){
+      if(isVoteDown) {
+        song.ratioOfUpsToSkips--;
+      }
+      else{
+        song.ratioOfUpsToSkips++;
+      }
+    }
+    updatePendingQueueUI();
+  });
 }
 
 function getSongQueueIdFromSongQueueListItemElement(element) {
@@ -476,6 +482,7 @@ function populateSongFromTrack(song, track) {
 
    currentSong.userVotedToSkip = true;
 
+   $('#vote-skip-song-btn').addClass('disabled');
    $.ajax({
     type: 'POST',
     url: "/party/"+partyId+"/voteToSkipCurrentSong",
