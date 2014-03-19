@@ -7,6 +7,9 @@
   },
   "dependencies": {
     "express": "3.4.8",
-    "jade": "*"
+    "jade": "*",
+    "levenshtein": "~1.0.4",
+    "geo-distance-safe": "~0.1.2",
+    "newrelic": "~1.4.0"
   }
 }

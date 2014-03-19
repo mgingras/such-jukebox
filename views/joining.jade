@@ -17,24 +17,26 @@ block content
                   p.
                     Enter the name of the party to search for or select a nearby party from the list
               .row
-                .col-sm-offset-4.col-sm-5
-                  .input-group
-                    input.form-control(type="text")
-                    span.input-group-btn
-                      button.btn.btn-default(type="button")
-                        .fa.fa-search
+                .col-sm-offset-4.col-sm-6
+                  #name-group.form-inline
+                    .input-group
+                      input#partyName.form-control(type="text", placeholder="Party's Name")
+                      span.input-group-btn(style="padding-bottom:0px;margin-bottom:0px;")
+                        button#search.btn.btn-default(type="button")
+                          .fa.fa-search
+                          |&nbsp;Search
+                    label#name-label.control-label.pull-left(for="partyName", style="display:none;") Enter party to search for
               .row
                 br
                 .col-sm-offset-3.col-sm-6
                   h3(style="text-align:left;")
-                    span#partyKeyword Popular
-                    | &nbsp;Parties:
+                    span#partyKeyword Parties:
                   #parties.list-group(style='margin-bottom:10px;')
-                    for party in partyNames
+                    for party in parties
                       a.list-group-item.party(id="party_#{party.id}")= party.name
                   #warn.alert.alert-danger(style='padding:5px;display:none;') Please select a party
               .row
-                .col-sm-offset-6.col-sm-3
+                .col-sm-offset-5.col-sm-4
                   p.pull-right Your location:&nbsp;
                     span.location(style="color:#d9534f")
                       i.fa.fa-location-arrow(style='display:inline;')

@@ -1,10 +1,5 @@
-body {
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  min-height:630px;
-}
-
 a {
-  color: #00B7FF;
+  color: #32C3EE;
 }
 /*
  * Globals
@@ -46,23 +41,26 @@ a {
 }
 
 .song-info{
+  height:50px;
   display: inline-block;
-  margin-left: 20px;
+  margin-left: 10px;
   vertical-align: middle;
   margin-top: 9px;
   text-align: left;
-  max-width: 60%
+  width:1000px;
+  max-width: 64%;
 }
 
 .song-info-list{
   overflow: hidden;
 }
 
-.song-icon{
+.song-icon {
   display: inline-block;
   height: 50px;
   width: 50px;
   background-size: 50px;
+  float:left;
 }
 
 .song-icon-list{
@@ -72,7 +70,8 @@ a {
 .song-details{
   display: inline-block;
   margin-left: 5px;
-  max-width: 100%;
+  max-width: 60%;
+  float:left;
 }
 
 .song-details-list{
@@ -96,7 +95,7 @@ p.now-playing{
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  max-width: inherit;
+  margin-bottom:5px;
 }
 .home{
   margin:-10px;
@@ -165,12 +164,13 @@ p.inline{
 }
 
 .player-btns{
-
+  height:52px;
 }
+
 
 #song-votes-to-skip{
   position: absolute;
-  margin-bottom:10px;
+  margin-bottom:9px;
   bottom: 0;
   right: 0;
 }
@@ -189,6 +189,23 @@ p.inline{
   padding-left:-5px;
   padding-right:-5px;
 }
+#search{
+  border:#DDDDDD 1px solid;
+  z-index:10;
+}
+.popover{
+  background-color:#111111;
+}
+.popover.bottom>.arrow:after{
+  border-bottom-color:#111111;
+}
+#parties{
+  overflow:auto;
+  max-height:190px;
+}
+.party{
+  cursor: pointer;
+}
 
 /*
  * Base structure
@@ -202,8 +219,9 @@ body {
 body {
   color: #fff;
   text-align: center;
-  text-shadow: 0 1px 3px rgba(0,0,0,.5);
-  box-shadow: inset 0 0 100px rgba(0,0,0,.5);
+  /*text-shadow: 0 1px 3px rgba(0,0,0,.5);*/
+  /*box-shadow: inset 0 0 100px rgba(0,0,0,.5);*/
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 /* Extra markup and styles for table-esque vertical and horizontal centering */
@@ -226,12 +244,18 @@ body {
   width:100%;
   position:relative;
 }
+#map-canvas {
+  height: 100%;
+  width: 100%;
+}
 
 /* Padding for spacing */
 .inner {
   padding: 30px;
 }
-
+.inner.cover {
+  height:70%;
+}
 
 /*
  * Header
@@ -298,7 +322,7 @@ body {
 .mastfoot {
   color: #999; /* IE8 proofing */
   color: rgba(255,255,255,.5);
-  position: absolute;
+  position: relative;
   bottom:0;
   text-align:center;
   width:100%;
@@ -310,12 +334,57 @@ body {
 /*
  * Affix and center
  */
-
-@media (min-width: 768px) {
-  .mastfoot {
-    position: absolute;
-    bottom: 0;
+@media (max-width: 767px) {
+  #search{
+    /*margin-top:22px;*/
   }
+  .player-controls {
+    font-size:80%;
+  }
+  .btn-sm {
+    font-size:70%;
+    height:auto;
+    width:auto;
+  }
+  .queue-list-votes{
+    margin-top:-40px;
+  }
+  .song-votes-controls {
+    margin-top:-5px;
+  }
+  .song-votes-count {
+    font-size:100%;
+  }
+  div.queue-list-votes > .btn-lg {
+    padding-left:3px;
+    padding-right:3px;
+    padding-top:10px;
+    padding-bottom:10px;
+    margin-left:40px;
+    width:40px;
+  }
+  .queued-song-item {
+    font-size:80%;
+  }
+  #invite-others-btn{
+    margin-right:0px;
+  }
+  .inner{
+    padding-top:5px;
+    padding-bottom:0px;
+  }
+  .mastfoot p{
+    margin-top:10px;
+  }
+  #next-song-btn{
+    margin-left:2px;
+  }
+  .song-info{
+    margin-top:0px;
+  }
+}
+
+@media (min-width: 767px) {
   /* Start the vertical centering */
   .site-wrapper-inner {
   }
@@ -324,7 +393,7 @@ body {
   .mastfoot,
   .cover-container {
     width: 100%; /* Must be percentage or pixels for horizontal alignment */
-  }
+
 }
 
 @media (min-width: 992px) {

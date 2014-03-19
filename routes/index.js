@@ -222,3 +222,35 @@ exports.queueSong = function(req,res) {
 
     res.send({party: party});
 }
+
+exports.nearbyParties = function(req, res){
+  var parties = database.getParties();
+  var partyNames = []; // [];
+  var d = null;
+  for(var key in parties){
+    d = Distance.between(req.query.location, parties[key].location).human_readable();
+    console.log(parties[key].name + ": " + d.distance);
+    if(d.distance <= 25){
+        partyNames.push({name: parties[key].name, id: parties[key].id, distance: d.distance});
+    }
+
+    partyNames.sort(function(a,b) { return (a.distance - b.distance) });
+  }
+
+  res.send(partyNames);
+}
+
+exports.findParty = function(req, res) {
+  var parties = database.getParties();
+  var partyNames = [];
+  var l = null;
+  for(var key in parties){
+    l = new Levenshtein(req.query.partyName, parties[key].name);
+    console.log(parties[key].name + ": " + l.distance);
+    if(l <= 8){
+        partyNames.push({name: parties[key].name, id: parties[key].id, similarity: l.distance});
+    }
+  }
+  partyNames.sort(function(a,b) { return (a.similarity - b.similarity) });
+  res.send(partyNames);
+}

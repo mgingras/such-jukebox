@@ -34,8 +34,12 @@
     if(party.currentSong){
       handleChangeToSong(party.currentSong);
     }
-
+	
+    updateUIState();
     that.addSongsToQueue(party.queuedSongs);
+
+    if(isHost)
+      addMoreSongsIfNeeded();
   }
 
   this.addSongToQueue = function(song) {
@@ -663,11 +667,32 @@ function populateSongFromTrack(song, track) {
     return isTrackAlreadyPlayed(trackid);
   }
 
+  this.disableVotedFor = function(votes){
+    if(!isHost){
+      var voted = votes.votedFor;
+      var votesToSkip = votes.votedToSkip;
+
+      for (var i = 0; i < voted.length; i++) {
+        if(voted[i] != null){
+          votedForSongs[i] = true;
+        }
+      }
+      if(currentSong == null){
+        $('#vote-skip-song-btn').addClass('disabled');
+      }
+      else if(votesToSkip[currentSong.id] != null){
+        currentSong.userVotedToSkip = true;
+        $('#vote-skip-song-btn').addClass('disabled');
+      }
+    }
+  }
+
 
   var updateTimer = setInterval(receiveUpdatedParty,5000);
 
-  if(isHost)
+  if(isHost){
     var fallbackSongsTimer = setInterval(addMoreSongsIfNeeded,5000);
+  }
 
 
   /*

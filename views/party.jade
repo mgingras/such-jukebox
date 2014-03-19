@@ -27,30 +27,31 @@ block content
                 .queueAndPlayer.player-only-elem
                   ul#song-queue.list-group.queue(style="margin-bottom:0px;")
                       ul#queued-songs.list-group(style="margin-bottom:0px;")
-                  #player-container.player-controls
-                      .nowPlaying
+                  #player-container.player-controls.container
+                      .row.nowPlaying
                         p.now-playing.lead(style="color:white;") Now Playing
-                      span#song-votes-to-skip.label.label-default(style="margin-left: 6px;")
-                          |0 Votes to Skip
-                      .player-btns.inline-block
-                        a#play-btn.host-only(class="btn btn-info btn-lg player-btn")
-                            span(class="glyphicon glyphicon-play")
-                        a#pause-btn.host-only(class="btn btn-info btn-lg player-btn", style="display:none;")
-                            span(class="glyphicon glyphicon-pause")
-                        a#next-song-btn.host-only(class="btn btn-info btn-lg player-btn")
-                            span(class="glyphicon glyphicon-forward")
-                        a#vote-skip-song-btn.guest-only(class="btn btn-info btn-lg player-btn")
-                            span(class="glyphicon glyphicon-step-forward")
+
+                      .row.player-btns.inline-block
+                        a#play-btn.host-only.btn.btn-info.btn-lg.player-btn
+                            span.glyphicon.glyphicon-play
+                        a#pause-btn.host-only.btn.btn-warning.btn-lg.player-btn(style="display:none;")
+                            span.glyphicon.glyphicon-pause
+                        a#next-song-btn.host-only.btn.btn-info.btn-lg.player-btn
+                            span.glyphicon.glyphicon-step-forward
+                        a#vote-skip-song-btn.guest-only.btn.btn-info.btn-lg.player-btn
+                            span.glyphicon.glyphicon-step-forward
                           #voteToSkip.caption.guest-only
                             small vote to skip
-                      .song-info
+                      .song-info.pull-right
                           #current-song-icon.song-icon
-                          .song-details
+                          .song-details(style="float:left;")
                               p#current-song-title
                               p#current-song-artist
                       #current-song-progress.progress.progress-striped.active.host-only
                           .progress-bar.progress-bar-info(role="progressbar", aria-valuenow="60", aria-valuemin="0", aria-valuemax="100", style="width: 0;")
                       audio#player.host-only(preload="auto", autobuffer, ontimeupdate="player.updateTimeOfCurrentSong(this.currentTime, this.duration)")
+                      span#song-votes-to-skip.label.label-default(style="margin-left: 6px;")
+                          |0 Votes to Skip
                 .search-only-elem(style="display:none;")
                   .input-group(style="margin-top: 25px;")
                     input#search-songs-input.form-control(type="text")
@@ -63,6 +64,7 @@ block content
         player = new Player(!{JSON.stringify(isHost)});
         console.log(!{JSON.stringify(party)});
         player.initializeFromParty(!{JSON.stringify(party)});
+        player.disableVotedFor(!{JSON.stringify(votes)});
         player.resizeQueue();
     });
   script(src="/js/player.js")
