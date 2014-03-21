@@ -376,12 +376,6 @@ this.voteSong = function(songQueueId, isVoteDown) {
 $('#queued-song_'+songQueueId).find('.vote-song-up-btn').addClass('disabled');
 $('#queued-song_'+songQueueId).find('.vote-song-down-btn').addClass('disabled');
 
-if(isVoteDown) {
-  song.ratioOfUpsToSkips--;
-} else{
-  song.ratioOfUpsToSkips++;
-}
-
 votedForSongs[songQueueId] = true;
 
 queuedSongs.sort(function(a,b){
@@ -472,9 +466,13 @@ function populateSongFromTrack(song, track) {
     Guest Specific
    */
 
-   function handleVoteSkip() {
+ function handleVoteSkip() {
     if(!currentSong)
      return;
+     
+    if(currentSong.userVotedToSkip == true){
+      return;
+    }
 
    if(currentSong.numVotesToSkip === undefined)
      currentSong.numVotesToSkip=0;

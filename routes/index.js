@@ -115,6 +115,10 @@ exports.becomeGuest = function(req, res) {
 
 
 exports.partyVoteSong = function(req,res){
+	if(req.session.partyVotes == null){
+        //Array to track parties visited
+        req.session.partyVotes = [];
+    }
     var id = req.params.id;
     var isVoteDown = req.body.isVoteDown;
     var songQueueId = req.body.songQueueId;
@@ -128,9 +132,6 @@ exports.partyVoteSong = function(req,res){
     	res.send({error: 'You need to give a songQueueId'});
         return;
     }
-
-    if(!req.session.partyVotes)
-        req.session.partyVotes = {};
     
     if(req.session.partyVotes[id] == null){
         //Array to track songs voted for
@@ -149,7 +150,6 @@ exports.partyVoteSong = function(req,res){
     }
 
     req.session.partyVotes[id][songQueueId] = true;
-
     res.send({});
 }
 
