@@ -1,5 +1,7 @@
-var objects = require('../public/js/core-objects')
+var objects = require('../public/js/core-objects');
 var database = require('../database');
+var Levenshtein = require('levenshtein');
+var Distance = require('geo-distance-safe');
 /*
  * GET home page.
  */
@@ -13,8 +15,8 @@ exports.hosting = function(req,res){
 }
 
 exports.joining = function(req,res){
-  parties = database.getParties();
-  partyNames = [];
+  var parties = database.getParties();
+  var partyNames = [];
   for(var key in parties){
     partyNames.push({name: parties[key].name, id: parties[key].id});
   }
@@ -47,10 +49,23 @@ exports.party = function(req,res){
         req.session.host[id] = true;
         isHost = true;
     }
-
+    var votedFor = [];
+    if(req.session.partyVotes){
+      if(req.session.partyVotes[id]){
+        votedFor = req.session.partyVotes[id];
+      }
+    }
+    var voteToSkip = [];
+    if(req.session.voteToSkip){
+        if(req.session.voteToSkip[id]){
+            voteToSkip = req.session.voteToSkip[id];
+        }
+    }
+    var votes = {votedFor: votedFor, votedToSkip: voteToSkip};
     res.render('party', {
     	title: 'Such Jukebox!',
     	party: party,
+        votes: votes,
     	isHost: isHost
     });
 }
@@ -99,6 +114,10 @@ exports.becomeGuest = function(req, res) {
 
 
 exports.partyVoteSong = function(req,res){
+    if(req.session.partyVotes == null){
+        //Array to track parties visited
+        req.session.partyVotes = [];
+    }
     var id = req.params.id;
     var isVoteDown = req.body.isVoteDown;
     var songQueueId = req.body.songQueueId;
@@ -109,16 +128,26 @@ exports.partyVoteSong = function(req,res){
     }
 
     if( ! songQueueId ) {
-    	res.send({error: 'You need to give a songQueueId'});
+        res.send({error: 'You need to give a songQueueId'});
         return;
     }
 
-    if(isVoteDown === true || isVoteDown === 'true') {
-    	party.voteForSong(songQueueId, true);
-    } else {
-		party.voteForSong(songQueueId);
+    if(req.session.partyVotes[id] == null){
+        //Array to track songs voted for
+        req.session.partyVotes[id] = [];
     }
 
+    if(req.session.partyVotes[id][songQueueId]){
+        res.send({error: 'You already voted!'});
+        return;
+    }
+    if(isVoteDown === true || isVoteDown === 'true') {
+        party.voteForSong(songQueueId, true);
+    }
+    else {
+        party.voteForSong(songQueueId);
+    }
+    req.session.partyVotes[id][songQueueId] = true;
     res.send({});
 }
 
@@ -187,40 +216,36 @@ exports.voteToSkipCurrentSong = function(req, res) {
         res.send({error: 'You need to provide a song queue id'});
         return;
     }
+    if(!req.session.voteToSkip){
+        req.session.voteToSkip = [];
+    }
+    if(!req.session.voteToSkip[id]){
+      req.session.voteToSkip[id] = [];
+    }
+    if(req.session.voteToSkip[id][songQueueId]){
+        res.send({error: 'Already voted to skip this song!'});
+    }
 
     if(party.currentSong !== undefined && ''+party.currentSong.id === songQueueId) {
         party.currentSong.voteToSkip();
+        req.session.voteToSkip[id][songQueueId] = true;
     }
-
     res.send({party: party});
 }
 
-
-exports.queueSong = function(req,res) {
-    var id = req.params.id;
-    var party = database.getParty(id);
-    var trackid = req.body.trackid;
-
-    if( ! party ) {
-        res.send({error: 'Party does not exist'});
-        return;
+exports.findParty = function(req, res) {
+  var parties = database.getParties();
+  var partyNames = [];
+  var l = null;
+  for(var key in parties){
+    l = new Levenshtein(req.query.partyName, parties[key].name);
+    console.log(parties[key].name + ": " + l.distance);
+    if(l <= 8){
+        partyNames.push({name: parties[key].name, id: parties[key].id, similarity: l.distance});
     }
-
-    if( ! trackid ) {
-        res.send({error: 'You must give a trackid'});
-        return;
-    }
-
-   var queuedSong = new objects.SongInQueue({
-        song: new objects.Song({
-            trackid: trackid
-        }),
-        ratioOfUpsToSkips: 0
-    });
-
-   party.addSongToQueue(queuedSong);
-
-    res.send({party: party});
+  }
+  partyNames.sort(function(a,b) { return (a.similarity - b.similarity) });
+  res.send(partyNames);
 }
 
 exports.nearbyParties = function(req, res){
@@ -237,20 +262,5 @@ exports.nearbyParties = function(req, res){
     partyNames.sort(function(a,b) { return (a.distance - b.distance) });
   }
 
-  res.send(partyNames);
-}
-
-exports.findParty = function(req, res) {
-  var parties = database.getParties();
-  var partyNames = [];
-  var l = null;
-  for(var key in parties){
-    l = new Levenshtein(req.query.partyName, parties[key].name);
-    console.log(parties[key].name + ": " + l.distance);
-    if(l <= 8){
-        partyNames.push({name: parties[key].name, id: parties[key].id, similarity: l.distance});
-    }
-  }
-  partyNames.sort(function(a,b) { return (a.similarity - b.similarity) });
   res.send(partyNames);
 }

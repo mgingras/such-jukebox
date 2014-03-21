@@ -1,7 +1,6 @@
 extends layout
 
 block content
-  script(src="http://connect.soundcloud.com/sdk.js")
   .site-wrapper
       .site-wrapper-inner
           .cover-container
@@ -59,6 +58,8 @@ block content
                       button#search-songs-button.btn.btn-default(type="button")
                         .fa.fa-search
                   ul#searchResultList.list-group.queue(style="height:100%;")
+                    ul.list-group()
+
   script.
     $(function(){
         player = new Player(!{JSON.stringify(isHost)});
