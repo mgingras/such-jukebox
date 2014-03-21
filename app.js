@@ -56,17 +56,3 @@ app.post('/party/:id/voteToSkipCurrentSong', routes.voteToSkipCurrentSong);
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
-
-
-/*fs.readFile('./db.json', 'utf8', function(err, data) {
-    if(err) {
-        console.error("Could not open file: %s", err);
-        return;
-    }
-    console.log(data);
-    fs.writeFile('./db.json', JSON.stringify({test: 1}), function(err) {
-        if(err) {
-            console.error("Could not write file: %s", err);
-        }
-    });
-});*/
