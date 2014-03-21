@@ -518,6 +518,10 @@
 			searchContainer.empty();
 			for ( var i in tracks) {
 				var track = tracks[i];
+				
+				if(track.id && isTrackAlreadyPlayedOrQueued(track.id))
+					continue;
+				
 				var song = {};
 				populateSongFromTrack(song, track);
 				var html = getSearchResultHtmlForSong(song);
@@ -823,9 +827,14 @@
 
 		$(document).on('click', '.add-song-btn', function() {
 			var trackid = $(this).attr('data-song-track-id');
-			console.log(trackid);
 			if (!trackid)
 				return;
+			
+			$(this).closest('.queued-song-item').addClass('added-song');
+			$(this).addClass('disabled');
+			$(this).html('Added');
+			$(this).removeClass('btn-info');
+			$(this).addClass('btn-success');
 
 			addTrackToQueue(trackid);
 		});
