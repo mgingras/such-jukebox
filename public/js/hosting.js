@@ -33,7 +33,7 @@
     var validName = partyName.length > 0;
     var genreID = $( "#fallback option:selected" ).val();
     var validGenre = genreID != null && genreID != "";
-
+    
     if(!validName){
       $('#nameWarn').css('display', 'block');
     }
