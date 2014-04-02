@@ -448,17 +448,6 @@
 					.addClass('disabled');
 
 			votedForSongs[songQueueId] = true;
-
-			queuedSongs
-					.sort(function(a, b) {
-						var ratioA = a.ratioOfUpsToSkips !== undefined ? a.ratioOfUpsToSkips
-								: 0;
-						var ratioB = b.ratioOfUpsToSkips !== undefined ? b.ratioOfUpsToSkips
-								: 0;
-
-						return ratioB - ratioA;
-					});
-
 			updatePendingQueueUI();
 
 			$.post("/party/" + partyId + "/voteSong", {
@@ -471,9 +460,25 @@
 					} else {
 						song.ratioOfUpsToSkips++;
 					}
+					sortQueuedSongsAndUpdateUI();
+					return;
 				}
 				updatePendingQueueUI();
 			});
+		}
+
+		function sortQueuedSongsAndUpdateUI() {
+			queuedSongs
+					.sort(function(a, b) {
+						var ratioA = a.ratioOfUpsToSkips !== undefined ? a.ratioOfUpsToSkips
+								: 0;
+						var ratioB = b.ratioOfUpsToSkips !== undefined ? b.ratioOfUpsToSkips
+								: 0;
+
+						return ratioB - ratioA;
+					});
+
+			updatePendingQueueUI();
 		}
 
 		function getSongQueueIdFromSongQueueListItemElement(element) {
@@ -593,7 +598,7 @@
 
 		function handleNewPartyState(party) {
 			if(isNoChangeInPartyState(party)) {
-				//return;
+				return;
 			}
 
 			if (!isHost && party.currentSong) {
