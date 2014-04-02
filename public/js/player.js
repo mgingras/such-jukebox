@@ -496,9 +496,9 @@
 		}
 
 		function goToPlayer() {
-			$(window).trigger('resize');
 			$('.player-only-elem').show();
 			$('.search-only-elem').hide();
+			$(window).trigger('resize');
 		}
 
 		this.goToPlayer = goToPlayer;
