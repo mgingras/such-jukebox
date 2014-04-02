@@ -205,7 +205,7 @@
 
 		this.getQueuedSongById = function(songQueueId) {
 			for ( var i in queuedSongs) {
-				if ('' + queuedSongs[i].id === '' + songQueueId) {
+				if (queuedSongs[i].id == songQueueId) {
 					return queuedSongs[i];
 				}
 			}
@@ -370,7 +370,7 @@
 					+ '<div class="queue-list-votes">'
 					+ '<a class="btn btn-info btn-lg add-song-btn" data-song-track-id="'
 					+ song.trackid
-					+ '"><span class="fa fa-plus"></span>Add</a>'
+					+ '"><span class="fa fa-plus"></span></a>'
 					+ '</div>'
 					+ '</div>' + '</li>';
 			return html;
@@ -448,17 +448,6 @@
 					.addClass('disabled');
 
 			votedForSongs[songQueueId] = true;
-
-			queuedSongs
-					.sort(function(a, b) {
-						var ratioA = a.ratioOfUpsToSkips !== undefined ? a.ratioOfUpsToSkips
-								: 0;
-						var ratioB = b.ratioOfUpsToSkips !== undefined ? b.ratioOfUpsToSkips
-								: 0;
-
-						return ratioB - ratioA;
-					});
-
 			updatePendingQueueUI();
 
 			$.post("/party/" + partyId + "/voteSong", {
@@ -471,9 +460,25 @@
 					} else {
 						song.ratioOfUpsToSkips++;
 					}
+					sortQueuedSongsAndUpdateUI();
+					return;
 				}
 				updatePendingQueueUI();
 			});
+		}
+
+		function sortQueuedSongsAndUpdateUI() {
+			queuedSongs
+					.sort(function(a, b) {
+						var ratioA = a.ratioOfUpsToSkips !== undefined ? a.ratioOfUpsToSkips
+								: 0;
+						var ratioB = b.ratioOfUpsToSkips !== undefined ? b.ratioOfUpsToSkips
+								: 0;
+
+						return ratioB - ratioA;
+					});
+
+			updatePendingQueueUI();
 		}
 
 		function getSongQueueIdFromSongQueueListItemElement(element) {
@@ -498,6 +503,7 @@
 		function goToPlayer() {
 			$('.player-only-elem').show();
 			$('.search-only-elem').hide();
+			$(window).trigger('resize');
 		}
 
 		this.goToPlayer = goToPlayer;
@@ -591,6 +597,10 @@
 		}
 
 		function handleNewPartyState(party) {
+			if(isNoChangeInPartyState(party)) {
+				return;
+			}
+
 			if (!isHost && party.currentSong) {
 				var newCurrentSong = that
 						.getQueuedSongById(party.currentSong.id);
@@ -634,6 +644,28 @@
 			}
 
 			updateUIState();
+		}
+
+		function isNoChangeInPartyState(party) {
+			for(var i in party.queuedSongs) {
+				var receviedSongQueue = party.queuedSongs[i];
+				var currentSongQueue = that.getQueuedSongById(receviedSongQueue.id);
+				if( !currentSongQueue ) {
+					return false;
+				}
+
+				if(currentSongQueue.ratioOfUpsToSkips !== receviedSongQueue.ratioOfUpsToSkips || currentSongQueue.numVotesToSkip !== receviedSongQueue.numVotesToSkip)
+					return false;
+			}
+
+			if(party.queuedSongs.length !== queuedSongs.length)
+				return false;
+
+			if(party.currentSong && (!party.currentSong || party.currentSong.id != currentSong.id) || party.currentSong.numVotesToSkip != currentSong.numVotesToSkip) {
+				return false;
+			}
+
+			return true;
 		}
 
 		function addTrackToQueue(trackid) {
@@ -762,21 +794,20 @@
 		}
 
 		this.disableVotedFor = function(votes) {
-			if (!isHost) {
-				var voted = votes.votedFor;
-				var votesToSkip = votes.votedToSkip;
+			var voted = votes.votedFor;
+			var votesToSkip = votes.votedToSkip;
 
-				for (var i = 0; i < voted.length; i++) {
-					if (voted[i] != null) {
-						votedForSongs[i] = true;
-					}
+			console.log(voted);
+			for (var i in voted) {
+				if (voted[i] != null) {
+					votedForSongs[i] = true;
 				}
-				if (currentSong == null) {
-					$('#vote-skip-song-btn').addClass('disabled');
-				} else if (votesToSkip[currentSong.id] != null) {
-					currentSong.userVotedToSkip = true;
-					$('#vote-skip-song-btn').addClass('disabled');
-				}
+			}
+			if (currentSong == null) {
+				$('#vote-skip-song-btn').addClass('disabled');
+			} else if (votesToSkip[currentSong.id] != null) {
+				currentSong.userVotedToSkip = true;
+				$('#vote-skip-song-btn').addClass('disabled');
 			}
 		}
 
@@ -832,7 +863,6 @@
 			
 			$(this).closest('.queued-song-item').addClass('added-song');
 			$(this).addClass('disabled');
-			$(this).html('Added');
 			$(this).removeClass('btn-info');
 			$(this).addClass('btn-success');
 
