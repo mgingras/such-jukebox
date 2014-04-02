@@ -50,7 +50,7 @@ app.post('/party/:id/voteSong', routes.partyVoteSong);
 app.post('/party/:id/newState', routes.newPartyState);
 app.post('/party/:id/updateCurrentSong', routes.updateCurrentSong);
 app.post('/party/:id/voteToSkipCurrentSong', routes.voteToSkipCurrentSong);
-
+app.post('/party/:id/queueSong', routes.queueSong);
 
 
 http.createServer(app).listen(app.get('port'), function(){

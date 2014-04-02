@@ -70,7 +70,7 @@ a {
 .song-details{
   display: inline-block;
   margin-left: 5px;
-  max-width: 60%;
+  max-width: 45%;
   float:left;
 }
 
@@ -133,7 +133,7 @@ p.now-playing{
 
 .queue-list-votes{
   float: right;
-  width: 110px;
+  /*width: 110px;*/
   display: inline-block;
 }
 
@@ -347,10 +347,9 @@ body {
     width:auto;
   }
   .queue-list-votes{
-    margin-top:-40px;
+    /*margin-top:-40px;*/
   }
   .song-votes-controls {
-    margin-top:-5px;
   }
   .song-votes-count {
     font-size:100%;
