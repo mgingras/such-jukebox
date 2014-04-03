@@ -15,6 +15,7 @@
 		var songCache = {};
 		var party;
 		var fallbackTrackQueue = {};
+		var queryInProgress = false;
 
 		if (!isHost) {
 			$('.host-only').hide();
@@ -30,7 +31,7 @@
 			if (party.currentSong) {
 				handleChangeToSong(party.currentSong);
 			}
-
+			// console.log('here');
 			updateUIState();
 			that.addSongsToQueue(party.queuedSongs);
 
@@ -112,13 +113,17 @@
 		}
 
 		function populateSoundCloudInfoToQueuedSong(queuedSong, callback) {
-			if (queuedSong.didGetSoundCloudInfo)
+			if (queuedSong.didGetSoundCloudInfo){
 				return;
+			}
 
 			console.log('About to make soundcloud call for song ['
 					+ queuedSong.id + ']');
-			SC
-					.get(
+
+			$('#queued-songs').html('');
+			queryInProgress = true;
+			toggleSpinner();
+			SC.get(
 							"/tracks/" + queuedSong.song.trackid,
 							function(track) {
 								console
@@ -227,14 +232,18 @@
 			$('#queued-songs').empty();
 
 			if (queuedSongs.length > 0) {
+				toggleSpinner();
 				for ( var i in queuedSongs) {
 					var song = queuedSongs[i];
 					$('#queued-songs').append(getQueuedHtmlForSong(song));
 				}
 			} else {
-				$('#queued-songs').append(
-						'<li class="list-group-item">'
-								+ '<p>There are no more songs</p>' + '</li>');
+				if(!queryInProgress){
+					$('#queued-songs').append(
+							'<li class="list-group-item">'+
+							'<p>There are no more songs</p>'+
+							'</li>');
+				}
 			}
 		}
 
@@ -251,7 +260,7 @@
 				title = currentSong.song.title;
 				artist = currentSong.song.artist;
 				bgUrl = currentSong.song.imageUrl;
-				
+
 				if(isHost){
 					if(isPlaying) {
 						$('#play-btn').hide();
@@ -515,6 +524,7 @@
 				q : query
 			}, function(tracks) {
 				console.log(tracks);
+				toggleSpinner();
 				changeSearchResults(tracks);
 			});
 		}
@@ -524,10 +534,10 @@
 			searchContainer.empty();
 			for ( var i in tracks) {
 				var track = tracks[i];
-				
+
 				if(track.id && isTrackAlreadyPlayedOrQueued(track.id))
 					continue;
-				
+
 				var song = {};
 				populateSongFromTrack(song, track);
 				var html = getSearchResultHtmlForSong(song);
@@ -793,6 +803,18 @@
 			return isTrackAlreadyPlayed(trackid);
 		}
 
+		function toggleSpinner(){
+			var visible = $('.spinner').css('display') === 'block';
+			console.log('visibe: ' + visible);
+
+			if(!visible){
+				$('.spinner').css('display', 'block');
+			}
+			else{
+				$('.spinner').css('display', 'none');
+			}
+		}
+
 		this.disableVotedFor = function(votes) {
 			var voted = votes.votedFor;
 			var votesToSkip = votes.votedToSkip;
@@ -831,6 +853,12 @@
 			}
 		});
 
+		$('#search-songs-input').keypress(function(e){
+			if(e.charCode === 13){
+		      return $('#search-songs-button').click();
+		    }
+		});
+
 		$(window).resize(function() {
 			that.resizeQueue();
 			that.resizeSearch();
@@ -853,6 +881,7 @@
 		});
 
 		$('#search-songs-button').click(function() {
+			toggleSpinner();
 			searchForSongs($('#search-songs-input').val());
 		});
 
@@ -860,7 +889,7 @@
 			var trackid = $(this).attr('data-song-track-id');
 			if (!trackid)
 				return;
-			
+
 			$(this).closest('.queued-song-item').addClass('added-song');
 			$(this).addClass('disabled');
 			$(this).removeClass('btn-info');
