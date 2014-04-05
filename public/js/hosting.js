@@ -1,3 +1,8 @@
+/**
+Handles error checking / the submission and redirection when a user is creating 
+a party.
+*/
+
 (function() {
   $('#location').bootstrapSwitch('state'); // whether to use locaiton
   var partyLocation = null;
@@ -49,7 +54,7 @@
     if(validName && validGenre){
       $.post('/hostParty', {name: partyName, genreId: genreID, location: partyLocation}, function(data){
         console.dir(data);
-        window.location.replace('/party/' + data.partyId);
+        window.location.replace('/party/' + data.partyId + '/');
       });
     }
 

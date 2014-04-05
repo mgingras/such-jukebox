@@ -1,3 +1,7 @@
+/*
+Handles error checking and redirection for guest looking for a party.  Also handles
+finding parties tht are nearby.
+*/
 (function() {
   var selectedParty = null;
   var google_api_key = 'AIzaSyCGqplXIkBDqyyUeGqRssGLVGl6X84ghqU';
@@ -23,7 +27,7 @@
       if(data)
         alert(data);
       else{
-        window.location.replace('/party/' + partyID);
+        window.location.replace('/party/' + partyID + '/');
       }
     });
   });

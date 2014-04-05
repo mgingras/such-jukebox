@@ -1,3 +1,10 @@
+/**
+This handles all logic within a party page.  It has a state of either being
+a a "guest" or a "host" and will alter the look of the page based on either. 
+It also handles the straming and displaying of songs from Soundcloud, populating
+new songs, song voting and error checking.
+*/
+
 (function() {
 	SC.initialize({
 		client_id : '37b3e407ce25c7ef03fe4ff665e40961'

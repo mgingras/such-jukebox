@@ -1,3 +1,7 @@
+/**
+Populates test data into the database
+*/
+
 var objects = require('./public/js/core-objects');
 var database = require('./database')
 

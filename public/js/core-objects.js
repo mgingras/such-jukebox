@@ -1,3 +1,7 @@
+/*
+All of the model objects used throughout the app and which are stored in the database
+*/
+
 Song = function(params) {
 	if(!params)
 		params = {};

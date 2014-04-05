@@ -1,3 +1,9 @@
+/**
+Acts as an in memory database cache for all party data.  When party pages are accessed
+or other operations involved with reading data occur, this obejct is used for storing / 
+writing that data.
+*/
+
 var Database = function() {
 	var that = this;
 

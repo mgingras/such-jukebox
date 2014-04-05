@@ -1,3 +1,10 @@
+/**
+This does all th work for each of the URL mappings defined in app.js.  Most
+of the work being done is taking user data submitted, and storing it in the
+database or reading out data (such as party info, song info, ect.) to the
+user.
+*/
+
 var objects = require('../public/js/core-objects')
 var database = require('../database');
 var Levenshtein = require('levenshtein');
@@ -39,6 +46,8 @@ exports.party = function(req,res){
     if(req.session.host !== undefined && req.session.host[id]) {
         console.log('Host is accessing party page for party with ID ['+id+']');
         isHost = true;
+    } else{
+        console.log('Guest is accessing party page for party with ID ['+id+']');
     }
 
     if( !isHost && hostPassword !== undefined && hostPassword === party.hostPassword ) {
@@ -62,6 +71,7 @@ exports.party = function(req,res){
             voteToSkip = req.session.voteToSkip[id];
         }
     }
+
     var votes = {votedFor: votedFor, votedToSkip: voteToSkip};
     res.render('party', {
     	title: 'Such Jukebox!',
@@ -87,6 +97,9 @@ exports.hostParty = function(req,res){
 }
 exports.createParty = function(req,res){
     var party = new Party(req.body);
+
+    console.log('A new party with id [' + party.id +'] was created with genre ' + objects.Genres[party.genreId]);
+
     database.addParty(party);
     party.hostPassword = 'root'
     req.session.host = {};
@@ -139,15 +152,19 @@ exports.partyVoteSong = function(req,res){
     }
     
      if(req.session.partyVotes[id][songQueueId]){
+        console.log("A guest tried to vote for a song they already voted for");
         res.send({error: 'You already voted!'});
         return;
     }
 
     if(isVoteDown === true || isVoteDown === 'true') {
     	party.voteForSong(songQueueId, true);
+        console.log("A guest voted up for a song with trackId " + party.getQueuedSongById(songQueueId).song.trackid);
     } else {
 		party.voteForSong(songQueueId);
+        console.log("A guest voted down for a song with trackId " + party.getQueuedSongById(songQueueId).song.trackid);
     }
+
 
     req.session.partyVotes[id][songQueueId] = true;
     res.send({});
@@ -226,13 +243,17 @@ exports.voteToSkipCurrentSong = function(req, res) {
       req.session.voteToSkip[id] = [];
     }
     if(req.session.voteToSkip[id][songQueueId]){
+        console.log("A guest voted to skip a song they already voted to skip");
         res.send({error: 'Already voted to skip this song!'});
     }
 
     if(party.currentSong !== undefined && ''+party.currentSong.id === songQueueId) {
         party.currentSong.voteToSkip();
         req.session.voteToSkip[id][songQueueId] = true;
+        console.log("A guest to skip a song with trackId " + party.currentSong.song.trackid);
     }
+
+    console.log("A guest voted to skip a song for a song with trackId " + party.getQueuedSongById(songQueueId).song.trackid);
 
     res.send({party: party});
 }
@@ -242,6 +263,8 @@ exports.queueSong = function(req,res) {
     var id = req.params.id;
     var party = database.getParty(id);
     var trackid = req.body.trackid;
+
+    console.log("A guest added a song with trackId " + trackid);
 
     if( ! party ) {
         res.send({error: 'Party does not exist'});
