@@ -132,12 +132,12 @@ exports.partyVoteSong = function(req,res){
     	res.send({error: 'You need to give a songQueueId'});
         return;
     }
-    
+
     if(req.session.partyVotes[id] == null){
         //Array to track songs voted for
         req.session.partyVotes[id] = {};
     }
-    
+
      if(req.session.partyVotes[id][songQueueId]){
         res.send({error: 'You already voted!'});
         return;

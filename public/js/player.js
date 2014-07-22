@@ -1,4 +1,4 @@
-(function() {
+
 	SC.initialize({
 		client_id : '37b3e407ce25c7ef03fe4ff665e40961'
 	});
@@ -31,7 +31,7 @@
 			if (party.currentSong) {
 				handleChangeToSong(party.currentSong);
 			}
-			// console.log('here');
+
 			updateUIState();
 			that.addSongsToQueue(party.queuedSongs);
 
@@ -40,13 +40,13 @@
 		}
 
 		this.addSongToQueue = function(song) {
+			queuedSongs.push(song);
 			populateSoundCloudInfoToQueuedSong(song,
 					updateSongInfoUIForQueuedSong);
 			if (!currentSong) {
 				handleChangeToSong(song);
 				return;
 			}
-			queuedSongs.push(song);
 			updateUIState();
 		}
 
@@ -116,13 +116,12 @@
 			if (queuedSong.didGetSoundCloudInfo){
 				return;
 			}
+			$('.spinner').css('display','block');
 
 			console.log('About to make soundcloud call for song ['
 					+ queuedSong.id + ']');
 
-			$('#queued-songs').html('');
-			queryInProgress = true;
-			toggleSpinner();
+
 			SC.get(
 							"/tracks/" + queuedSong.song.trackid,
 							function(track) {
@@ -232,7 +231,6 @@
 			$('#queued-songs').empty();
 
 			if (queuedSongs.length > 0) {
-				toggleSpinner();
 				for ( var i in queuedSongs) {
 					var song = queuedSongs[i];
 					$('#queued-songs').append(getQueuedHtmlForSong(song));
@@ -702,6 +700,7 @@
 		}
 
 		function addMoreSongs() {
+			$('.spinner').css('display', 'block');
 			var genreName = Genres[party.genreId];
 			if (!genreName) {
 				console.log("Genre ID for the party is not defined");
@@ -749,6 +748,7 @@
 						break;
 					z++;
 				}
+				$('.spinner').css('display', 'none');
 				queueSongsFromFallbackQueue();
 			});
 		}
@@ -803,7 +803,7 @@
 			return isTrackAlreadyPlayed(trackid);
 		}
 
-		function toggleSpinner(){
+		toggleSpinner = function(){
 			var visible = $('.spinner').css('display') === 'block';
 			console.log('visibe: ' + visible);
 
@@ -884,6 +884,9 @@
 			toggleSpinner();
 			searchForSongs($('#search-songs-input').val());
 		});
+		$('#queued-songs').change(function() {
+			console.dir('this');
+		});
 
 		$(document).on('click', '.add-song-btn', function() {
 			var trackid = $(this).attr('data-song-track-id');
@@ -935,4 +938,3 @@
 
 		this.resizeSearch();
 	}
-}).call(this);

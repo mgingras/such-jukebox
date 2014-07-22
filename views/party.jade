@@ -4,6 +4,22 @@ block content
   script(src="http://connect.soundcloud.com/sdk.js")
   .site-wrapper
       .site-wrapper-inner
+        .spinner
+            .spinner-container.container1
+                .circle1
+                .circle2
+                .circle3
+                .circle4
+              .spinner-container.container2
+                .circle1
+                .circle2
+                .circle3
+                .circle4
+              .spinner-container.container3
+                .circle1
+                .circle2
+                .circle3
+                .circle4
           .cover-container
             .home.pull-right(style='position:relative;')
               a(href='/')
@@ -25,22 +41,6 @@ block content
                         span(class="glyphicon glyphicon-envelope margined-glyphicon")
                         |Invite Guests
                 .queueAndPlayer.player-only-elem
-                  .spinner(style='display:none;')
-                      .spinner-container.container1
-                          .circle1
-                          .circle2
-                          .circle3
-                          .circle4
-                        .spinner-container.container2
-                          .circle1
-                          .circle2
-                          .circle3
-                          .circle4
-                        .spinner-container.container3
-                          .circle1
-                          .circle2
-                          .circle3
-                          .circle4
                   ul#song-queue.list-group.queue(style="margin-bottom:0px;")
                       ul#queued-songs.list-group(style="margin-bottom:0px;")
                         li
@@ -72,28 +72,13 @@ block content
                       span#song-votes-to-skip.label.label-default(style="margin-left: 6px;")
                           |0 Votes to Skip
                 .search-only-elem(style="display:none;")
-                  .spinner(style='display:none;')
-                      .spinner-container.container1
-                          .circle1
-                          .circle2
-                          .circle3
-                          .circle4
-                        .spinner-container.container2
-                          .circle1
-                          .circle2
-                          .circle3
-                          .circle4
-                        .spinner-container.container3
-                          .circle1
-                          .circle2
-                          .circle3
-                          .circle4
                   .input-group(style="margin-top: 25px;")
                     input#search-songs-input.form-control(type="text")
                     span.input-group-btn
                       button#search-songs-button.btn.btn-default(type="button")
                         .fa.fa-search
                   ul#searchResultList.list-group.queue(style="height:100%;")
+  script(src="/js/player.js")
   script.
     $(function(){
         player = new Player(!{JSON.stringify(isHost)});
@@ -102,4 +87,3 @@ block content
         player.disableVotedFor(!{JSON.stringify(votes)});
         player.resizeQueue();
     });
-  script(src="/js/player.js")
